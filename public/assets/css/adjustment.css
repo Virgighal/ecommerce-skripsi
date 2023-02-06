@@ -1,0 +1,42 @@
+
+.main-sidebar{
+    min-height: 100%;
+    position: fixed !important;
+    top: 0;
+    max-height: 100%;
+    overflow-y: auto;
+}
+
+.detail-typograph {
+
+}
+
+.detail-typograph h4 {
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.detail-typograph p {
+    font-size: 15px;
+    line-height: 2;
+}
+
+.detail-typograph p label{
+    font-weight: normal !important;
+}
+
+.nav-treeview > .nav-item {
+    font-size: 13px;
+    padding-left: 10px;
+}
+.nav-treeview > .nav-item > a > .nav-icon {
+    font-size: 12px !important;
+}
+
+.pull-right {
+    margin-left: auto;
+}
+
+.pagination {
+    flex-wrap: wrap;
+}
