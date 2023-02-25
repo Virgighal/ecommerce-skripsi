@@ -32,7 +32,7 @@
   <body class="hold-transition login-page">
     <div class="login-box">
       <div class="login-logo">
-      <a href="#"><b>Warung Mbo'e</b></a>
+      <a href="#"><b>Login</b></a>
       </div>
       <!-- /.login-logo -->
       <div class="card">
