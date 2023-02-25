@@ -14,12 +14,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function() {
-//     return view('welcome');
-// });
+Route::get('/', function() {
+    return view('welcome');
+});
 
 // Authentication Routes
-Route::get('/', [AuthController::class, 'showLoginForm'])->name('login')->middleware('guest');
+Route::get('/admin', [AuthController::class, 'showLoginForm'])->name('login')->middleware('guest');
 Route::get('login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('login', [AuthController::class, 'login'])->name('login');
 Route::post('logout', [AuthController::class, 'logout'])->name('logout');
