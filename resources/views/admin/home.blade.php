@@ -31,22 +31,7 @@
                             <h3>
                                 0
                             </h3>
-                            <p>Total Incomes</p>
-                        </div>
-                        <div class="icon">
-                            <i class="ion ion-stats-bars"></i>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-4">
-                    <!-- small box -->
-                    <div class="small-box bg-primary">
-                        <div class="inner">
-                            <h3>
-                                0
-                            </h3>
-                            <p>Total Profit</p>
+                            <p>Total Transaction</p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-stats-bars"></i>
