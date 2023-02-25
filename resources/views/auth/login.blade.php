@@ -37,7 +37,7 @@
       <!-- /.login-logo -->
       <div class="card">
         <div class="card-body login-card-body">
-          <p class="login-box-msg">Please Login to Admin Panel</p>
+          <p class="login-box-msg">SELAMAT DATANG</p>
     
           <form action="{{ route('login') }}" method="post">
             @csrf
