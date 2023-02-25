@@ -29,7 +29,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="#" class="nav-link 
+                    <a href="{{ route('admin.users.index') }}" class="nav-link 
                         @if(strpos(\URL::current(), "user_management") !== false)
                         active
                         @endif
