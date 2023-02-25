@@ -9,7 +9,7 @@
         <div class="user-panel d-flex">
             <div class="info">
                 <a href="{{ route('admin.home') }}" class="d-block pt-3 pb-3">
-                    <h5 style="margin-bottom: 0;">Ecommerce Platform</h5>
+                    <h5 style="margin-bottom: 0;">Warung Mbo'e</h5>
                 </a>
             </div>
         </div>
