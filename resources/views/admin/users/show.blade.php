@@ -105,7 +105,7 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <input type="submit" value="Create new User" class="btn btn-success float-right">
+                                <input type="submit" value="Update User" class="btn btn-success float-right">
                             </div>
                         </form>
                     </div>

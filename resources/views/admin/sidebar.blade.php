@@ -8,7 +8,7 @@
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel d-flex">
             <div class="info">
-                <a href="/" class="d-block pt-3 pb-3">
+                <a href="{{ route('admin.home') }}" class="d-block pt-3 pb-3">
                     <h5 style="margin-bottom: 0;">Ecommerce Platform</h5>
                 </a>
             </div>
@@ -62,7 +62,7 @@
                 </li>
                 
                 <li class="nav-item">
-                    <form action="{{ route('admin.logout') }}" method="POST" id='logoutForm'>
+                    <form action="{{ route('logout') }}" method="POST" id='logoutForm'>
                         @csrf
                     </form>
                     <script type="text/javascript">
