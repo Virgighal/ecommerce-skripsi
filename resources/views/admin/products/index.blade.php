@@ -36,6 +36,51 @@
             @endif
 
             <!-- Default box -->
+
+            <div class="card">
+                <div class="card-header">
+                    <p>
+                        Search Product
+                    </p>
+                    <form action="{{ route('admin.products.index') }}" method="GET">
+                        <div style="display: flex;gap:20px">
+                            <div style="width: 30%">
+                                <label for="name">Name</label>
+                                <input type="text" class="form-control" autocomplete="off" name="name" placeholder="Enter Product Name">
+                            </div>
+                            <div style="width: 30%">
+                                <label for="name">Code</label>
+                                <input type="text" class="form-control" autocomplete="off" name="code" placeholder="Enter Product Code">
+                            </div>
+                            <div style="width:30%">
+                                <label for="type">Type</label>
+                                <select name="type" class="form-control" id="">
+                                    @php
+                                        $options = [
+                                            [
+                                                'label' => 'Makanan',
+                                                'value' => 'makanan'
+                                            ],
+                                            [
+                                                'label' => 'Minuman',
+                                                'value' => 'minuman'
+                                            ]
+                                        ]
+                                    @endphp
+                                    <option value="">Please select Type</option>
+                                    @foreach ($options as $option)
+                                        <option value="{{ $option['value'] }}">{{ $option['label'] }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div style="width: 20%">
+                                <button type="submit" class="btn btn-primary" style="margin-top:30px">Filter</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title mr-2">
