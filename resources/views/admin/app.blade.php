@@ -68,9 +68,6 @@
     <script src="/assets/plugins/chart.js/Chart.min.js"></script>
     <!-- Sparkline -->
     <script src="/assets/plugins/sparklines/sparkline.js"></script>
-    <!-- JQVMap -->
-    <script src="/assets/plugins/jqvmap/jquery.vmap.min.js"></script>
-    <script src="/assets/plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
     <!-- jQuery Knob Chart -->
     <script src="/assets/plugins/jquery-knob/jquery.knob.min.js"></script>
     <!-- daterangepicker -->
@@ -85,7 +82,7 @@
     <!-- AdminLTE App -->
     <script src="/assets/js/adminlte.js"></script>
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-    <script src="/assets/js/pages/dashboard.js"></script>
+    {{-- <script src="/assets/js/pages/dashboard.js"></script> --}}
     <script src="{{ asset('datepicker/datepicker.min.js')}}"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="/assets/js/demo.js"></script>

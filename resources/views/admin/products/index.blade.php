@@ -89,7 +89,7 @@
                 </div>
 
                 <nav class="pull-right mt-3 mr-3">
-                    {{ $products->appends($_GET)->links() }}
+                    {!! $products->appends($_GET)->links() !!}
                 </nav>
             <!-- /.card-body -->
             </div>
