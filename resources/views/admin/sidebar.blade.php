@@ -51,13 +51,13 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="#" class="nav-link 
+                    <a href="{{ route('admin.orders.index') }}" class="nav-link 
                         @if(strpos(\URL::current(), "transaction_management") !== false)
                         active
                         @endif
                     ">
                         <i class="nav-icon fas fa-shopping-bag"></i>
-                        <p>Transaction</p>
+                        <p>Orders</p>
                     </a>
                 </li>
                 

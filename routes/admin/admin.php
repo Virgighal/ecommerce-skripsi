@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\UsersController;
+use App\Http\Controllers\Admin\OrderController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->group(function() {
@@ -25,5 +26,11 @@ Route::middleware('auth')->group(function() {
         Route::post('store', [ProductsController::class, 'store'])->name('store');
         Route::post('update/{id}', [ProductsController::class, 'update'])->name('update');
         Route::delete('destroy', [ProductsController::class, 'destroy'])->name('destroy');
+    });
+
+    Route::prefix('orders')->name('orders.')->group(function() {
+        Route::get('/', [OrderController::class, 'index'])->name('index');
+        Route::get('/{id}', [OrderController::class, 'show'])->name('show');
+        Route::post('update/{id}', [OrderController::class, 'update'])->name('update');
     });
 });
