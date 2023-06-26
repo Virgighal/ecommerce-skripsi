@@ -8,12 +8,12 @@
             <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-12 col-md-6">
-                <h1>Products Management</h1>
+                <h1>Stocks Management</h1>
                 </div>
                 <div class="col-sm-12 col-md-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{ route('admin.home') }}">Home</a></li>
-                    <li class="breadcrumb-item active">Products</li>
+                    <li class="breadcrumb-item active">Stocks</li>
                 </ol>
                 </div>
             </div>
@@ -36,12 +36,57 @@
             @endif
 
             <!-- Default box -->
+
+            <div class="card">
+                <div class="card-header">
+                    <p>
+                        Search Stock
+                    </p>
+                    <form action="{{ route('admin.products.index') }}" method="GET">
+                        <div style="display: flex;gap:20px">
+                            <div style="width: 30%">
+                                <label for="name">Name</label>
+                                <input type="text" class="form-control" autocomplete="off" name="name" placeholder="Enter Product Name">
+                            </div>
+                            <div style="width: 30%">
+                                <label for="name">Code</label>
+                                <input type="text" class="form-control" autocomplete="off" name="code" placeholder="Enter Product Code">
+                            </div>
+                            <div style="width:30%">
+                                <label for="type">Type</label>
+                                <select name="type" class="form-control" id="">
+                                    @php
+                                        $options = [
+                                            [
+                                                'label' => 'Makanan',
+                                                'value' => 'makanan'
+                                            ],
+                                            [
+                                                'label' => 'Minuman',
+                                                'value' => 'minuman'
+                                            ]
+                                        ]
+                                    @endphp
+                                    <option value="">Please select Type</option>
+                                    @foreach ($options as $option)
+                                        <option value="{{ $option['value'] }}">{{ $option['label'] }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div style="width: 20%">
+                                <button type="submit" class="btn btn-primary" style="margin-top:30px">Filter</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title mr-2">
                         <a class="btn btn-primary btn-sm" href={{ route('admin.products.create') }}>
                             <i class="fas fa-plus" style="margin-right: 10px"></i>
-                            Create New Product
+                            Create New Stock
                         </a>
                     </h3>
                 </div>
@@ -89,7 +134,7 @@
                 </div>
 
                 <nav class="pull-right mt-3 mr-3">
-                    {{ $products->appends($_GET)->links() }}
+                    {!! $products->appends($_GET)->links() !!}
                 </nav>
             <!-- /.card-body -->
             </div>
