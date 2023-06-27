@@ -20,6 +20,10 @@ class CartController extends Controller
      */
     public function index(Request $request)
     {   
+        if(!empty(auth()->user()) && auth()->user()->user_level != 'User') {
+            return redirect()->route('admin.home');
+        }
+
         $products = Product::get();
         $user = auth()->user();
 
@@ -58,6 +62,9 @@ class CartController extends Controller
     public function add(Request $request)
     {   
         $user = auth()->user();
+        if(!empty($user) && $user->user_level != 'User') {
+            return redirect()->route('admin.home');
+        }
 
         $cart = Cart::where('user_id', $user->id)->first();
         if (empty($cart)) {
@@ -101,6 +108,9 @@ class CartController extends Controller
     public function checkout(Request $request)
     {
         $user = auth()->user();
+        if(!empty($user) && $user->user_level != 'User') {
+            return redirect()->route('admin.home');
+        }
         
         $cart = Cart::where('user_id', $user->id)->first();
         $cartItems = CartItem::where('cart_id', $cart->id)->where('checkout', 0)->get();
@@ -125,6 +135,9 @@ class CartController extends Controller
     public function pay(Request $request)
     {
         $user = auth()->user();
+        if(!empty($user) && $user->user_level != 'User') {
+            return redirect()->route('admin.home');
+        }
 
         if(empty($request->image)) {
             return redirect()->back()->with('error_message', 'Silahkan upload bukti pembayaran terlebih dahulu!');

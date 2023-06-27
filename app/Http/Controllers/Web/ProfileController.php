@@ -22,6 +22,11 @@ class ProfileController extends Controller
     public function index(Request $request)
     {   
         $user = auth()->user();
+        if(!empty($user) && $user->user_level != 'User') {
+            return redirect()->route('admin.home');
+        }
+
+        $user = auth()->user();
 
         $orders = Order::where('user_id', $user->id)->get();
 
@@ -47,9 +52,12 @@ class ProfileController extends Controller
 
     public function changeProfile(Request $request)
     {  
-        $userLogin = auth()->user();
+        $user = auth()->user();
+        if(!empty($user) && $user->user_level != 'User') {
+            return redirect()->route('admin.home');
+        }
 
-        $user = User::where('id', $userLogin->id)->first();
+        $user = User::where('id', $user->id)->first();
         $user->name = $request->name;
         $user->phone_number = $request->phone_number;
         $user->save();

@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Admin Warung Mbo'e</title>
+    <title>Warung Mbo'e</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="Free Website Template" name="keywords">
     <meta content="Free Website Template" name="description">
@@ -47,10 +47,13 @@
             </button>
             <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                 <div class="navbar-nav ml-auto p-4">
-                    <a href="{{ route('home') }}" class="nav-item nav-link @if($active_menu == 'home') active @endif">Home</a>
+                    <a href="{{ route('home') }}" class="nav-item nav-link @if($active_menu == 'home') active @endif">Beranda</a>
                     <a href="{{ route('menu') }}" class="nav-item nav-link @if($active_menu == 'menu') active @endif">Menu</a>
-                    <a href="{{ route('cart') }}" class="nav-item nav-link @if($active_menu == 'cart') active @endif">Cart</a>
+                    <a href="{{ route('cart') }}" class="nav-item nav-link @if($active_menu == 'cart') active @endif">Keranjang</a>
                     <a href="{{ route('profile') }}" class="nav-item nav-link @if($active_menu == 'profile') active @endif">Profile</a>
+                    @if(empty(auth()->user()))
+                        <a href="{{ route('admin.home') }}" class="nav-item nav-link">Admin Panel</a>
+                    @endif
                 </div>
             </div>
         </nav>
@@ -64,13 +67,13 @@
     <div class="container-fluid footer text-white mt-5 pt-5 px-0 position-relative overlay-top">
         <div class="row mx-0 pt-5 px-sm-3 px-lg-5 mt-4">
             <div class="col-lg-3 col-md-6 mb-5">
-                <h4 class="text-white text-uppercase mb-4" style="letter-spacing: 3px;">Get In Touch</h4>
+                <h4 class="text-white text-uppercase mb-4" style="letter-spacing: 3px;">Hubungi Kami</h4>
                 <p><i class="fa fa-map-marker-alt mr-2"></i>BSI 2 Blok C4 RT 04/10 No 12 Kelurahan Pengasinan, Sawangan, Depok</p>
                 <p><i class="fa fa-phone-alt mr-2"></i>+6812-8304-4180</p>
                 <p class="m-0"><i class="fa fa-envelope mr-2"></i>achmadnurrohman9@gmail.com</p>
             </div>
             <div class="col-lg-3 col-md-6 mb-5">
-                <h4 class="text-white text-uppercase mb-4" style="letter-spacing: 3px;">Open Hours</h4>
+                <h4 class="text-white text-uppercase mb-4" style="letter-spacing: 3px;">Buka Setiap :</h4>
                 <div>
                     <h6 class="text-white text-uppercase">Monday - Saturday</h6>
                     <p>7.00 AM - 4.00 PM</p>

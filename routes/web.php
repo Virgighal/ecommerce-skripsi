@@ -22,13 +22,17 @@ use App\Http\Controllers\Web\ProfileController;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 // Authentication Routes
-Route::get('/admin', [AuthController::class, 'showLoginForm'])->name('login');
+Route::get('/admin-login', [AuthController::class, 'showLoginForm'])->name('admin-login');
+
 Route::get('/login', [AuthController::class, 'showUserLoginForm'])->name('show-login');
 Route::get('register', [AuthController::class, 'showRegisterForm'])->name('register');
+
 Route::post('register', [AuthController::class, 'register'])->name('do-register');
-Route::post('logout', [AuthController::class, 'logout'])->name('logout');Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 Route::post('login', [AuthController::class, 'login'])->name('login');
 Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+
+Route::post('admin-login', [AuthController::class, 'adminLogin'])->name('admin-do-login');
+Route::post('admin-logout', [AuthController::class, 'adminLogout'])->name('admin-logout');
 
 Route::prefix('admin')->name('admin.')->group(function() {
     require __DIR__.'/admin/admin.php';

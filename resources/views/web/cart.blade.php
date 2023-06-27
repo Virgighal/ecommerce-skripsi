@@ -52,16 +52,15 @@
 
 
     <!-- Service Start -->
-    <div class="container-fluid pt-5">
+    <div class="container-fluid pt-5" id="shopping-cart">
         <div class="container">
             <div class="row">
-                
                 <div class="cart_section">
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-lg-10 offset-lg-1">
                                 <div class="cart_container">
-                                    <div class="cart_title">Shopping Cart<small> ({{ $total_products }} item in your cart) </small></div>
+                                    <div class="cart_title">Keranjang<small> ({{ $total_products }} Item) </small></div>
                                     <div class="cart_items">
                                         <ul class="cart_list">
                                             @foreach ($cart_items as $item)
@@ -71,20 +70,20 @@
                                                     </div>
                                                     <div class="cart_item_info d-flex flex-md-row flex-column justify-content-between">
                                                         <div class="cart_item_name cart_info_col">
-                                                            <div class="cart_item_title">Name</div>
+                                                            <div class="cart_item_title">Nama</div>
                                                             <div class="cart_item_text">{{ $item->product->name }}</div>
                                                         </div>
                                                         <div class="cart_item_quantity cart_info_col">
-                                                            <div class="cart_item_title">Quantity</div>
+                                                            <div class="cart_item_title">Jumlah</div>
                                                             <div class="cart_item_text">{{ $item->quantity }}</div>
                                                         </div>
                                                         <div class="cart_item_price cart_info_col">
-                                                            <div class="cart_item_title">Price</div>
-                                                            <div class="cart_item_text">Rp {{ $item->product->price }}</div>
+                                                            <div class="cart_item_title">Harga</div>
+                                                            <div class="cart_item_text">Rp {{ number_format($item->product->price) }}</div>
                                                         </div>
                                                         <div class="cart_item_total cart_info_col">
                                                             <div class="cart_item_title">Total</div>
-                                                            <div class="cart_item_text">Rp {{ $item->price }}</div>
+                                                            <div class="cart_item_text">Rp {{ number_format($item->price) }}</div>
                                                         </div>
                                                     </div>
                                                 </li>
@@ -93,17 +92,23 @@
                                     </div>
                                     <div class="order_total">
                                         <div class="order_total_content text-md-right">
-                                            <div class="order_total_title">Order Total:</div>
-                                            <div class="order_total_amount">Rp {{ $total_price }}</div>
+                                            <div class="order_total_title">Total Belanja</div>
+                                            <div class="order_total_amount">Rp {{ number_format($total_price) }}</div>
                                         </div>
                                     </div>
                                     <div class="cart_buttons"> 
                                         <a href="{{ route('menu') }}">
-                                            <button type="button" class="button cart_button_clear">Continue Shopping</button>
+                                            @if(count($cart_items) > 0)
+                                                <button type="button" class="button cart_button_clear">Lanjut Belanja</button>
+                                            @else
+                                                <button type="button" class="button cart_button_clear">Mulai Belanja</button>
+                                            @endif
                                         </a>
-                                        <a href="{{ route('checkout') }}">
-                                            <button type="button" class="button cart_button_checkout">Checkout</button>
-                                        </a>
+                                        @if(count($cart_items) > 0)
+                                            <a href="{{ route('checkout') }}">
+                                                <button type="button" class="button cart_button_checkout">Checkout Belanjaan</button>
+                                            </a>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -180,4 +185,11 @@
         </div>
     </div>
     <!-- Service End -->
+@endsection
+
+@section('scripts')
+    <script type="text/javascript">
+        const element = document.getElementById("shopping-cart");
+        element.scrollIntoView();
+    </script>
 @endsection

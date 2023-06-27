@@ -52,7 +52,7 @@
 
 
     <!-- Service Start -->
-    <div class="container-fluid pt-5">
+    <div class="container-fluid pt-5" id="checkout">
         @if(Session::has('error_message'))
             <div class="alert alert-danger" role="alert">
             {{ Session::get('error_message') }}
@@ -257,20 +257,20 @@
                             </div>
                         </div>
 
-                        <span id="card-header">Transfer to:</span>
+                        {{-- <span id="card-header">Transfer to:</span> --}}
                         {{-- <div class="row row-1">
                             <div class="col-2"><img class="img-fluid" src="https://img.icons8.com/color/48/000000/mastercard-logo.png"/></div>
                             <div class="col-7">
                                 <input type="text" placeholder="12837 81729 (BCA)">
                             </div>
                         </div> --}}
-                        <span id="card-header">Bukti Pembayaran:</span>
+                        <span id="card-header">Upload Bukti Pembayaran:</span>
                         <div class="row-1">
                             <div class="row row-2">
                                 <input type="file" name="image" id="image" accept=".jpg,.jpeg,.png">
                             </div>
                         </div>
-                        <button class="btn d-flex mx-auto"><b>Submit</b></button>
+                        <button class="btn d-flex mx-auto"><b>Checkout</b></button>
                     </form>
                 </div>
 
@@ -278,4 +278,11 @@
         </div>
     </div>
     <!-- Service End -->
+@endsection
+
+@section('scripts')
+    <script type="text/javascript">
+        const element = document.getElementById("checkout");
+        element.scrollIntoView();
+    </script>
 @endsection

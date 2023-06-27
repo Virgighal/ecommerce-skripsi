@@ -39,7 +39,7 @@
         <div class="card-body login-card-body">
           <p class="login-box-msg">Selamat Datang</p>
     
-          <form action="{{ route('login') }}" method="post">
+          <form action="{{ route('admin-do-login') }}" method="post">
             @csrf
             <div class="input-group mb-3">
               <input name="email" type="email" class="form-control" placeholder="Email">

@@ -18,9 +18,8 @@ class OrderController extends Controller
      */
     public function index(Request $request)
     {
-
-        if(!auth()->user()->user_level == 'Admin') {
-            abort(404);
+        if(auth()->user()->user_level != 'Admin') {
+            return redirect()->route('home');
         }
 
         $orders = Order::paginate(10);
@@ -32,8 +31,8 @@ class OrderController extends Controller
 
     public function show($id)
     {
-        if(!auth()->user()->user_level == 'Admin') {
-            abort(404);
+        if(auth()->user()->user_level != 'Admin') {
+            return redirect()->route('home');
         }
 
         $order = Order::where('id', $id)->first();
@@ -49,8 +48,8 @@ class OrderController extends Controller
 
     public function update(Request $request, $id)
     {
-        if(!auth()->user()->user_level == 'Admin') {
-            abort(404);
+        if(auth()->user()->user_level != 'Admin') {
+            return redirect()->route('home');
         }
 
         $order = Order::where('id', $id)->first();

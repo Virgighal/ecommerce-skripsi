@@ -16,6 +16,11 @@ class MenuController extends Controller
      */
     public function index(Request $request)
     {   
+        $user = auth()->user();
+        if(!empty($user) && $user->user_level != 'User') {
+            return redirect()->route('admin.home');
+        }
+        
         $products = Product::get();
 
         return view('web.menu', [

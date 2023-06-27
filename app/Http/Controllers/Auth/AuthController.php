@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Token;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
@@ -87,29 +89,82 @@ class AuthController extends Controller
      * @param \Illuminate\Http\Request   $request
      * @return \Illuminate\Http\Response
      */
+    public function adminLogin(Request $request)
+    {
+        $this->validate($request, [
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
+        $successLogin = false;
+        if(auth()->attempt([
+            'email' => $request->email, 
+            'password' => $request->password
+        ])) {
+            $user = auth()->user();
+            if ($user->user_level == 'Admin') {
+                $successLogin = true;
+            }
+        }
+
+        if($successLogin) {
+            Token::create([
+                'user_id' => $user->id,
+                'token' => Str::random(191)
+            ]);
+            return redirect()->route('admin.home');
+        } else {
+            return back()
+                ->with(Auth::logout())
+                ->with('error_message', 'Sorry, you cannot access this page');
+        }
+    }
+
+    /**
+     * Handles the user login request
+     *
+     * @param \Illuminate\Http\Request   $request
+     * @return \Illuminate\Http\Response
+     */
     public function login(Request $request)
     {
         $this->validate($request, [
             'email' => 'required|email',
             'password' => 'required',
         ]);
+
+        $successLogin = false;
         if(auth()->attempt([
             'email' => $request->email, 
             'password' => $request->password
         ])) {
             $user = auth()->user();
             if ($user->user_level == 'User') {
-                return redirect()->route('/');
-            } elseif ($user->user_level == 'Admin') {
-                return redirect()->route('admin.home');
+                $successLogin = true;
             }
         }
 
-        return back()->with('error_message', 'Invalid login credentials!');
+        if($successLogin) {
+            Token::create([
+                'user_id' => $user->id,
+                'token' => Str::random(191)
+            ]);
+            return redirect()->route('menu');
+        } else {
+            return back()
+                ->with(Auth::logout())
+                ->with('error_message', 'Sorry, you cannot access this page');
+        }
+
     }
 
     public function logout()
-    {
+    {        
+        return redirect('/')->with(Auth::logout());
+    }
+
+    public function adminLogout()
+    {        
         return redirect('/')->with(Auth::logout());
     }
 }

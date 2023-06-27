@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use PhpParser\Node\Stmt\Catch_;
+use Throwable;
 
 class ProductsController extends Controller
 {
@@ -16,9 +18,8 @@ class ProductsController extends Controller
      */
     public function index(Request $request)
     {
-
-        if(!auth()->user()->user_level == 'Admin') {
-            abort(404);
+        if(auth()->user()->user_level != 'Admin') {
+            return redirect()->route('home');
         }
 
         $products = Product::orderBy('name', 'ASC');
@@ -49,8 +50,8 @@ class ProductsController extends Controller
      */
     public function create()
     {
-        if(!auth()->user()->user_level == 'Admin') {
-            abort(404);
+        if(auth()->user()->user_level != 'Admin') {
+            return redirect()->route('home');
         }
 
         return view('admin.products.create');
@@ -64,8 +65,8 @@ class ProductsController extends Controller
      */
     public function store(Request $request)
     {
-        if(!auth()->user()->user_level == 'Admin') {
-            abort(404);
+        if(auth()->user()->user_level != 'Admin') {
+            return redirect()->route('home');
         }
 
         $validationRules = [
@@ -108,8 +109,8 @@ class ProductsController extends Controller
      */
     public function show($id)
     {
-        if(!auth()->user()->user_level == 'Admin') {
-            abort(404);
+        if(auth()->user()->user_level != 'Admin') {
+            return redirect()->route('home');
         }
 
         $product = Product::where('id', $id)->first();
@@ -143,8 +144,8 @@ class ProductsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if(!auth()->user()->user_level == 'Admin') {
-            abort(404);
+        if(auth()->user()->user_level != 'Admin') {
+            return redirect()->route('home');
         }
 
         $product = Product::where('id', $id)->first();
@@ -195,8 +196,8 @@ class ProductsController extends Controller
      */
     public function destroy(Request $request)
     {
-        if(!auth()->user()->user_level == 'Admin') {
-            abort(404);
+        if(auth()->user()->user_level != 'Admin') {
+            return redirect()->route('home');
         }
 
         $product = Product::where('id', $request->id)->first();
@@ -206,7 +207,15 @@ class ProductsController extends Controller
         }
 
         $imageFilePath = public_path($product->image_file_path);
-        unlink($imageFilePath);
+
+        try {
+            $image = file_get_contents($imageFilePath);
+            if(!empty($image)) {
+                unlink($imageFilePath);
+            }
+        } catch(Throwable $e) {
+            //
+        }
 
         $product->delete();
 

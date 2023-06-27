@@ -52,7 +52,7 @@
 
 
     <!-- Service Start -->
-    <div class="container-fluid pt-5">
+    <div class="container-fluid pt-5" id="profile">
         <div class="container">
             <div class="row">
 
@@ -150,6 +150,19 @@
                                 <li class="nav-item">
                                     <a class="nav-link" id="order-history-tab" data-toggle="tab" href="#order-history" role="tab" aria-controls="profile" aria-selected="false">Order History</a>
                                 </li>
+                                <li class="nav-item">
+                                    <form action="{{ route('logout') }}" method="POST" id='logoutForm'>
+                                        @csrf
+                                    </form>
+                                    <script type="text/javascript">
+                                        function confirmLogout() {
+                                            if(confirm("Are you sure you want to log out?")) {
+                                                document.getElementById('logoutForm').submit();
+                                            }
+                                        }
+                                    </script>
+                                    <a class="nav-link" style="background-color: #ff407b;color:white" href="#" role="tab" onclick='confirmLogout()'>Log Out</a>
+                                </li>
                             </ul>
                             <div class="tab-content" id="myTabContent3">
                                 <div class="tab-pane fade show active" id="my-profile" role="tabpanel" aria-labelledby="my-profile-tab">
@@ -194,10 +207,14 @@
                                                     <tbody style="padding: 10px">
                                                         @foreach($order->products as $product)
                                                             <tr>
-                                                                <td> {{ $product->product->name }}</td>
+                                                                <td> {{ !empty($product->product) ? $product->product->name : 'N/A' }}</td>
                                                                 <td>Rp. {{ number_format($product->price) }}</td>
                                                                 <td>{{ number_format($product->quantity) }}</td>
-                                                                <td><img width="100px" height="100px" src="{{ $product->product->image_file_path }}" alt=""></td>
+                                                                @if(!empty($product->product))
+                                                                    <td><img width="100px" height="100px" src="{{ $product->product->image_file_path }}" alt=""></td>
+                                                                @else
+                                                                    <td>N/A</td>
+                                                                @endif
                                                             </tr>
                                                         @endforeach
                                                     </tbody>
@@ -216,4 +233,11 @@
         </div>
     </div>
     <!-- Service End -->
+@endsection
+
+@section('scripts')
+    <script type="text/javascript">
+        const element = document.getElementById("profile");
+        element.scrollIntoView();
+    </script>
 @endsection

@@ -83,6 +83,9 @@
                     <div class="card-body p-0">
                         <div class="row no-gutters">
                             <div class="col-lg-12">
+                                <div class="pl-3 pt-3">
+                                    <a href="{{ route('show-login') }}" class="btn btn-theme">Back</a>
+                                </div>
                                 <div class="p-5">
                                     <div class="mb-4">
                                         <h3 class="h4 font-weight-bold text-theme">Register</h3>

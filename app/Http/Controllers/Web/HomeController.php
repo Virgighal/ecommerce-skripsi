@@ -15,6 +15,10 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {   
+        if(!empty(auth()->user()) && auth()->user()->user_level != 'User') {
+            return redirect()->route('admin.home');
+        }
+
         return view('web.home', [
             'active_menu' => 'home'
         ]);

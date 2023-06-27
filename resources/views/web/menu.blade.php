@@ -52,7 +52,7 @@
 
 
     <!-- Service Start -->
-    <div class="container-fluid pt-5">
+    <div class="container-fluid pt-5" id="menu">
         @if(Session::has('success_message'))
         <div class="alert alert-success" role="alert">
             {{ Session::get('success_message') }}
@@ -60,7 +60,7 @@
         @endif
         <div class="container">
             <div class="section-title">
-                <h4 class="text-primary text-uppercase" style="letter-spacing: 5px;">Our Menus</h4>
+                <h4 class="text-primary text-uppercase" style="letter-spacing: 5px;">Menu</h4>
             </div>
             <div class="row">
                 @foreach ($products as $product)
@@ -136,4 +136,11 @@
         </div>
     </div>
     <!-- Service End -->
+@endsection
+
+@section('scripts')
+    <script type="text/javascript">
+        const element = document.getElementById("menu");
+        element.scrollIntoView();
+    </script>
 @endsection
