@@ -99,7 +99,7 @@ class AuthController extends Controller
         ])) {
             $user = auth()->user();
             if ($user->user_level == 'User') {
-                return redirect()->route('home');
+                return redirect()->route('/');
             } elseif ($user->user_level == 'Admin') {
                 return redirect()->route('admin.home');
             }

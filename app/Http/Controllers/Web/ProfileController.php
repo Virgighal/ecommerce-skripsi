@@ -25,6 +25,19 @@ class ProfileController extends Controller
 
         $orders = Order::where('user_id', $user->id)->get();
 
+        foreach($orders as $order) {
+            // get item 
+            $orderItems = OrderItem::where('order_id', $order->id)->get();
+
+            foreach($orderItems as $orderItem) {
+                $product = Product::where('id', $orderItem->product_id)->first();
+                
+                $orderItem->product = $product;
+            }
+
+            $order->products = $orderItems;
+        }
+
         return view('web.profile', [
             'active_menu' => 'profile',
             'user' => $user,

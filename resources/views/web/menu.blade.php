@@ -6,7 +6,7 @@
         <div id="blog-carousel" class="carousel slide overlay-bottom" data-ride="carousel">
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <img class="w-100" src="{{ asset('web-asset/img/header-home.jpeg') }}" alt="Image">
+                    <img class="w-100" src="{{ asset('web-asset/img/background.jpg') }}" alt="Image">
                     <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                         {{-- <h2 class="text-primary font-weight-medium m-0">We Have Been Serving</h2> --}}
                         <h1 class="display-1 text-white m-0">Warung Mbo'e</h1>
@@ -53,6 +53,11 @@
 
     <!-- Service Start -->
     <div class="container-fluid pt-5">
+        @if(Session::has('success_message'))
+        <div class="alert alert-success" role="alert">
+            {{ Session::get('success_message') }}
+            </div>
+        @endif
         <div class="container">
             <div class="section-title">
                 <h4 class="text-primary text-uppercase" style="letter-spacing: 5px;">Our Menus</h4>

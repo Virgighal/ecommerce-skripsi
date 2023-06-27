@@ -35,7 +35,7 @@ Route::prefix('admin')->name('admin.')->group(function() {
 });
 
 Route::get('menu', [MenuController::class, 'index'])->name('menu');
-Route::middleware('auth')->group(function() {
+Route::middleware('web-auth')->group(function() {
     Route::get('cart', [CartController::class, 'index'])->name('cart');
     Route::get('checkout', [CartController::class, 'checkout'])->name('checkout');
     Route::post('add-to-cart', [CartController::class, 'add'])->name('add-to-cart');

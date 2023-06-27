@@ -6,7 +6,7 @@
         <div id="blog-carousel" class="carousel slide overlay-bottom" data-ride="carousel">
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <img class="w-100" src="{{ asset('web-asset/img/header-home.jpeg') }}" alt="Image">
+                    <img class="w-100" src="{{ asset('web-asset/img/background.jpg') }}" alt="Image">
                     <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                         {{-- <h2 class="text-primary font-weight-medium m-0">We Have Been Serving</h2> --}}
                         <h1 class="display-1 text-white m-0">Warung Mbo'e</h1>
@@ -163,6 +163,10 @@
                                             <label for="phone" class="form-label">Phone Number</label>
                                             <input type="text" name="phone_number" class="form-control" id="phone" value="{{ $user->phone_number }}">
                                         </div>
+                                        <div class="mb-3">
+                                            <label for="phone" class="form-label">Address</label>
+                                            <textarea class="form-control" name="address" id="" cols="30" rows="10">{{ $user->address }}</textarea>
+                                        </div>
                                         <button type="submit" class="btn btn-primary">Update</button>
                                     </form>
                                 </div>
@@ -171,8 +175,33 @@
                                         <div class="card mb-4">
                                             <div class="card-body">
                                                 Order Date: {{ $order->created_at }} <br>
-                                                Price: {{ $order->total_price }} <br>
-                                                Status: {{ $order->status }}
+                                                Total Price: Rp. {{ number_format($order->total_price) }} <br>
+                                                Status: 
+                                                    @if($order->status == 'Konfirmasi') 
+                                                        <span class="badge badge-success">{{ $order->status }}</span> 
+                                                    @else
+                                                        <span class="badge badge-warning">{{ $order->status }}</span> 
+                                                    @endif
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Product Name</th>
+                                                            <th>Price</th>
+                                                            <th>Quantity</th>
+                                                            <th>Image</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody style="padding: 10px">
+                                                        @foreach($order->products as $product)
+                                                            <tr>
+                                                                <td> {{ $product->product->name }}</td>
+                                                                <td>Rp. {{ number_format($product->price) }}</td>
+                                                                <td>{{ number_format($product->quantity) }}</td>
+                                                                <td><img width="100px" height="100px" src="{{ $product->product->image_file_path }}" alt=""></td>
+                                                            </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
                                             </div>
                                         </div>
                                     @endforeach

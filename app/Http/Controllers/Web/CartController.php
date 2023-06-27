@@ -125,6 +125,10 @@ class CartController extends Controller
     public function pay(Request $request)
     {
         $user = auth()->user();
+
+        if(empty($request->image)) {
+            return redirect()->back()->with('error_message', 'Silahkan upload bukti pembayaran terlebih dahulu!');
+        }
         
         $cart = Cart::where('user_id', $user->id)->first();
         $cartItems = CartItem::where('cart_id', $cart->id)->where('checkout', 0)->get();
@@ -168,6 +172,6 @@ class CartController extends Controller
             $cartItem->save();
         }
 
-        return redirect()->route('cart');
+        return redirect()->route('menu')->with('success_message', 'berhasil melakukan pemesanan!');
     }
 }

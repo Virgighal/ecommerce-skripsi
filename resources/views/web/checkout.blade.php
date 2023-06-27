@@ -53,6 +53,11 @@
 
     <!-- Service Start -->
     <div class="container-fluid pt-5">
+        @if(Session::has('error_message'))
+            <div class="alert alert-danger" role="alert">
+            {{ Session::get('error_message') }}
+            </div>
+        @endif
         <div class="container">
             <div class="row">
 
@@ -248,23 +253,17 @@
                         <span id="card-header">Total:</span> 
                         <div class="row row-1">
                             <div class="col-7">
-                                <input type="text" placeholder="Rp. {{ $total_price }}">
+                                <input type="text" placeholder="Rp. {{ number_format($total_price) }}" value="{{ $total_price }}"  disabled>
                             </div>
                         </div>
 
                         <span id="card-header">Transfer to:</span>
-                        <div class="row row-1">
+                        {{-- <div class="row row-1">
                             <div class="col-2"><img class="img-fluid" src="https://img.icons8.com/color/48/000000/mastercard-logo.png"/></div>
                             <div class="col-7">
                                 <input type="text" placeholder="12837 81729 (BCA)">
                             </div>
-                        </div>
-                        <div class="row row-1">
-                            <div class="col-2"><img  class="img-fluid" src="https://img.icons8.com/color/48/000000/visa.png"/></div>
-                            <div class="col-7">
-                                <input type="text" placeholder="28742 82987 (BCA)">
-                            </div>
-                        </div>
+                        </div> --}}
                         <span id="card-header">Bukti Pembayaran:</span>
                         <div class="row-1">
                             <div class="row row-2">
