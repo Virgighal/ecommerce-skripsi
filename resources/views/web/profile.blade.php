@@ -232,16 +232,6 @@
                                                                 @endif
                                                                 <td style="white-space: nowrap;">
                                                                     @if(!empty($product->product) && $order->status == 'Konfirmasi')
-                                                                        @if($product->rating_star > 0)
-                                                                            <div class="rating-stars" style="display:flex;gap:5px">
-                                                                                @php
-                                                                                    for($i = 1; $i <= $product->rating_star; $i++) {
-                                                                                        echo "<span class='fa fa-star checked' style=font-size:15px'></span>";
-                                                                                    }
-                                                                                @endphp
-                                                                            </div>
-                                                                            <br>
-                                                                        @endif
                                                                         <a class="btn btn-primary btn-sm" href="{{ route('ratings.index', 
                                                                             [
                                                                                 'rateableType' => $product->product,

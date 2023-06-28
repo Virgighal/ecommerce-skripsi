@@ -249,8 +249,28 @@
                 </style>
                 
                 <div class="card mt-50 mb-50">
-                    <div class="card-title mx-auto">
-                        Rating
+                    <div style="display: flex">
+                        <div class="card-title mx-auto">
+                            Rating
+                        </div>
+                    </div>
+                    <div style="padding-bottom: 50px">
+                        <div class="row align-items-center">
+                            <div class="col-sm-5">
+                                <img class="img-fluid mb-3 mb-sm-0" src="{{ url($product_object->image_file_path) }}" alt="" style="border-radius: 5%">
+                            </div>
+                            <div class="col-sm-7">
+                                <h4>{{ $product_object->name }}</h4>
+                                <h5>Rp. {{ number_format($product_object->price, 2) }}</h5>
+                                <div class="rating-stars" style="display:flex;gap:5px">
+                                    @php
+                                        for($i = 1; $i <= $product_object->rating_star; $i++) {
+                                            echo "<span class='fa fa-star checked' style=font-size:15px'></span>";
+                                        }
+                                    @endphp
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <form action="{{ route('ratings.store', ['rateableType' => 'App\Models\Product', 'rateableId' => $product_id ]) }}" method="POST">
                         @csrf
@@ -263,7 +283,8 @@
                             <span class="fa fa-star" id="star-5" style="font-size:75px" onclick="chooseStar(5)"></span>
                         </div>
                         
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="submit" class="btn btn-success">Submit</button>
+                        <a href="{{ route('profile') }}" class="btn btn-warning">Cancel</a>
                     </form>
                 </div>
 

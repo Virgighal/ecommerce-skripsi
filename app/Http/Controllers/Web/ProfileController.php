@@ -68,6 +68,7 @@ class ProfileController extends Controller
         $user = User::where('id', $user->id)->first();
         $user->name = $request->name;
         $user->phone_number = $request->phone_number;
+        $user->address = $request->address;
         $user->save();
 
         return redirect()->route('profile');

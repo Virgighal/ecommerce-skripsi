@@ -19,10 +19,16 @@ class RatingController extends Controller
      */
     public function rating(Request $request, $rateableType, $rateableId) 
     {
+        $productObject =  Product::where('id', $rateableId)->first();
+        if(empty($productObject)) {
+            return redirect()->back()->with('error_message', 'product tidak ditemukan!');
+        }
+
         return view('web.rating', [
             'active_menu' => 'rating',
             'product' => $rateableType,
-            'product_id' => $rateableId
+            'product_id' => $rateableId,
+            'product_object' => $productObject
         ]);
     }   
 

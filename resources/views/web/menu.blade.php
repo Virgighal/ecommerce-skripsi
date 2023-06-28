@@ -63,6 +63,11 @@
                 <h4 class="text-primary text-uppercase" style="letter-spacing: 5px;">Menu</h4>
             </div>
             <div class="row">
+                <style>
+                    .checked {
+                        color: orange;
+                    }
+                </style>
                 @foreach ($products as $product)
                     <div class="col-lg-6 mb-5">
                         <div class="row align-items-center">
@@ -73,6 +78,14 @@
                             <div class="col-sm-7">
                                 <h4>{{ $product->name }}</h4>
                                 <h5>Rp. {{ number_format($product->price, 2) }}</h5>
+                                <div class="rating-stars" style="display:flex;gap:5px">
+                                    @php
+                                        for($i = 1; $i <= $product->rating_star; $i++) {
+                                            echo "<span class='fa fa-star checked' style=font-size:15px'></span>";
+                                        }
+                                    @endphp
+                                </div>
+                                <br>
                                 <form action="{{ route('add-to-cart') }}" method="POST">
                                     @csrf
                                     <input type="text" name="product_id" id="product_id" hidden value="{{ $product->id }}">
