@@ -46,7 +46,7 @@
                         @endif
                     ">
                         <i class="nav-icon fas fa-box"></i>
-                        <p>Product Management</p>
+                        <p>Stok Management</p>
                     </a>
                 </li>
 
