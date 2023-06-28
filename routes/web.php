@@ -7,6 +7,7 @@ use App\Http\Controllers\Web\HomeController;
 use App\Http\Controllers\Web\MenuController;
 use App\Http\Controllers\Web\CartController;
 use App\Http\Controllers\Web\ProfileController;
+use App\Http\Controllers\Web\RatingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,8 +43,10 @@ Route::get('menu', [MenuController::class, 'index'])->name('menu');
 Route::middleware('web-auth')->group(function() {
     Route::get('cart', [CartController::class, 'index'])->name('cart');
     Route::get('checkout', [CartController::class, 'checkout'])->name('checkout');
+    Route::get('profile', [ProfileController::class, 'index'])->name('profile');
+    Route::get('ratings/{rateableType}/{rateableId}', [RatingController::class, 'rating'])->name('ratings.index');
     Route::post('add-to-cart', [CartController::class, 'add'])->name('add-to-cart');
     Route::post('pay', [CartController::class, 'pay'])->name('pay');
-    Route::get('profile', [ProfileController::class, 'index'])->name('profile');
     Route::post('change-profile', [ProfileController::class, 'changeProfile'])->name('change-profile');
+    Route::post('ratings/{rateableType}/{rateableId}', [RatingController::class, 'store'])->name('ratings.store');
 });

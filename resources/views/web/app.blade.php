@@ -21,6 +21,7 @@
     <!-- Libraries Stylesheet -->
     <link href="{{ asset('web-asset/lib/owlcarousel/assets/owl.carousel.min.css') }}" rel="stylesheet">
     <link href="{{ asset('web-asset/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css') }}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
     <!-- Customized Bootstrap Stylesheet -->
     <link href="{{ asset('web-asset/css/style.min.css') }}" rel="stylesheet">

@@ -54,8 +54,8 @@
     <!-- Service Start -->
     <div class="container-fluid pt-5" id="menu">
         @if(Session::has('success_message'))
-        <div class="alert alert-success" role="alert">
-            {{ Session::get('success_message') }}
+            <div class="alert alert-success" role="alert">
+                {{ Session::get('success_message') }}
             </div>
         @endif
         <div class="container">

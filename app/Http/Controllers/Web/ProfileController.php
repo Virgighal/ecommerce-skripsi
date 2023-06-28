@@ -9,6 +9,7 @@ use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\Rating;
 use App\Models\User;
 
 class ProfileController extends Controller
@@ -36,8 +37,15 @@ class ProfileController extends Controller
 
             foreach($orderItems as $orderItem) {
                 $product = Product::where('id', $orderItem->product_id)->first();
+                $rating = Rating::where('rateable_id', $orderItem->product_id)->first();
+
+                $ratingStar = 0;
+                if(!empty($rating)) {
+                    $ratingStar = $rating->rating;
+                }
                 
                 $orderItem->product = $product;
+                $orderItem->rating_star = $ratingStar;
             }
 
             $order->products = $orderItems;

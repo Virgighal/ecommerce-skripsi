@@ -53,12 +53,21 @@
 
     <!-- Service Start -->
     <div class="container-fluid pt-5" id="profile">
+        @if(Session::has('success_message'))
+            <div class="alert alert-success" role="alert">
+                {{ Session::get('success_message') }}
+            </div>
+        @endif
         <div class="container">
             <div class="row">
 
                 <style>
                     p {
                         margin: 0px 0px 20px 0px;
+                    }
+
+                    .checked {
+                        color: orange;
                     }
 
                     p:last-child {
@@ -207,6 +216,7 @@
                                                             <th>Price</th>
                                                             <th>Quantity</th>
                                                             <th>Image</th>
+                                                            <th>Options</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody style="padding: 10px">
@@ -220,6 +230,27 @@
                                                                 @else
                                                                     <td>N/A</td>
                                                                 @endif
+                                                                <td style="white-space: nowrap;">
+                                                                    @if(!empty($product->product) && $order->status == 'Konfirmasi')
+                                                                        @if($product->rating_star > 0)
+                                                                            <div class="rating-stars" style="display:flex;gap:5px">
+                                                                                @php
+                                                                                    for($i = 1; $i <= $product->rating_star; $i++) {
+                                                                                        echo "<span class='fa fa-star checked' style=font-size:15px'></span>";
+                                                                                    }
+                                                                                @endphp
+                                                                            </div>
+                                                                            <br>
+                                                                        @endif
+                                                                        <a class="btn btn-primary btn-sm" href="{{ route('ratings.index', 
+                                                                            [
+                                                                                'rateableType' => $product->product,
+                                                                                'rateableId' => $product->product->id
+                                                                            ]) }}">
+                                                                            <i class="fas fa-star"></i> Beri Rating
+                                                                        </a>
+                                                                    @endif
+                                                                <td>
                                                             </tr>
                                                         @endforeach
                                                     </tbody>
