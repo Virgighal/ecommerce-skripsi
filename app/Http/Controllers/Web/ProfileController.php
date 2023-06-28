@@ -28,7 +28,7 @@ class ProfileController extends Controller
 
         $user = auth()->user();
 
-        $orders = Order::where('user_id', $user->id)->get();
+        $orders = Order::where('user_id', $user->id)->orderBy('id', 'DESC')->get();
 
         foreach($orders as $order) {
             // get item 

@@ -184,9 +184,14 @@
                                     </form>
                                 </div>
                                 <div class="tab-pane fade" id="order-history" role="tabpanel" aria-labelledby="order-history-tab">
+                                    @php
+                                        $number = 1;
+                                    @endphp
                                     @foreach ($orders as $order)
                                         <div class="card mb-4">
                                             <div class="card-body">
+                                                <b>{{ $number++ }} </b>
+                                                <br>
                                                 Order Date: {{ $order->created_at }} <br>
                                                 Total Price: Rp. {{ number_format($order->total_price) }} <br>
                                                 Status: 
