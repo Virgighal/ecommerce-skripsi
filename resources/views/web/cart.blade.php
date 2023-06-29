@@ -11,6 +11,7 @@
                         {{-- <h2 class="text-primary font-weight-medium m-0">We Have Been Serving</h2> --}}
                         <h1 class="display-1 text-white m-0">Warung Mbo'e</h1>
                         <h2 class="text-white m-0">* Sejak 2022 *</h2>
+                        <h3 class="text-white m-0">Warung Mbo’e adalah salah satu Usaha Micro Kecil Menengah yang diorganisir secara komersil di daerah sawangan perumahan bumi sawangan indah kota depok. Saat ini banyak rumah makan yang proses transaksi jual belinya dilakukan secara online.</h3>
                     </div>
                 </div>
             </div>
