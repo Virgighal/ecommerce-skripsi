@@ -83,6 +83,12 @@
                                         for($i = 1; $i <= $product->rating_star; $i++) {
                                             echo "<span class='fa fa-star checked' style=font-size:15px'></span>";
                                         }
+
+                                        if($product->rating_star < 5) {
+                                            for($i = 1; $i <= (5 - $product->rating_star); $i++) {
+                                                echo "<span class='fa fa-star' style=font-size:15px'></span>";
+                                            }
+                                        }
                                     @endphp
                                 </div>
                                 <br>

@@ -48,7 +48,7 @@ class RatingController extends Controller
 
         $rateableModel = $rateableType::findOrFail($rateableId);
 
-        Rating::where('rateable_id', $rateableId)->delete();
+        Rating::where('rateable_id', $rateableId)->where('user_id', auth()->user()->id)->delete();
 
         $rating = new Rating([
             'rating' => $validatedData['rating'],

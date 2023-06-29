@@ -70,7 +70,7 @@
                                                         <img src="{{ url($item->product->image_file_path) }}" alt="">
                                                     </div>
                                                     <div class="cart_item_info d-flex flex-md-row flex-column justify-content-between">
-                                                        <div class="cart_item_name cart_info_col">
+                                                        <div class="cart_item_name cart_info_col" style="width: 20%">
                                                             <div class="cart_item_title">Nama</div>
                                                             <div class="cart_item_text">{{ $item->product->name }}</div>
                                                         </div>
