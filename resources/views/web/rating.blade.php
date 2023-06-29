@@ -1,0 +1,319 @@
+@extends('web.app')
+
+@section('content')
+    <!-- Carousel Start -->
+    <div class="container-fluid p-0 mb-5">
+        <div id="blog-carousel" class="carousel slide overlay-bottom" data-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img class="w-100" src="{{ asset('web-asset/img/background.jpg') }}" alt="Image">
+                    <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
+                        {{-- <h2 class="text-primary font-weight-medium m-0">We Have Been Serving</h2> --}}
+                        <h1 class="display-1 text-white m-0">Warung Mbo'e</h1>
+                        <h2 class="text-white m-0">* Sejak 2022 *</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Carousel End -->
+
+
+    <!-- About Start -->
+    {{-- <div class="container-fluid py-5">
+        <div class="container">
+            <div class="section-title">
+                <h4 class="text-primary text-uppercase" style="letter-spacing: 5px;">Menu</h4>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 py-0 py-lg-5">
+                    <h1 class="mb-3">Our Story</h1>
+                    <h5 class="mb-3">Eos kasd eos dolor vero vero, lorem stet diam rebum. Ipsum amet sed vero dolor sea</h5>
+                    <p>Takimata sed vero vero no sit sed, justo clita duo no duo amet et, nonumy kasd sed dolor eos diam lorem eirmod. Amet sit amet amet no. Est nonumy sed labore eirmod sit magna. Erat at est justo sit ut. Labor diam sed ipsum et eirmod</p>
+                    <a href="" class="btn btn-secondary font-weight-bold py-2 px-4 mt-2">Learn More</a>
+                </div>
+                <div class="col-lg-4 py-5 py-lg-0" style="min-height: 500px;">
+                    <div class="position-relative h-100">
+                        <img class="position-absolute w-100 h-100" src="{{ asset('web-asset/img/about.png') }}" style="object-fit: cover;">
+                    </div>
+                </div>
+                <div class="col-lg-4 py-0 py-lg-5">
+                    <h1 class="mb-3">Our Vision</h1>
+                    <p>Invidunt lorem justo sanctus clita. Erat lorem labore ea, justo dolor lorem ipsum ut sed eos, ipsum et dolor kasd sit ea justo. Erat justo sed sed diam. Ea et erat ut sed diam sea ipsum est dolor</p>
+                    <h5 class="mb-3"><i class="fa fa-check text-primary mr-3"></i>Lorem ipsum dolor sit amet</h5>
+                    <h5 class="mb-3"><i class="fa fa-check text-primary mr-3"></i>Lorem ipsum dolor sit amet</h5>
+                    <h5 class="mb-3"><i class="fa fa-check text-primary mr-3"></i>Lorem ipsum dolor sit amet</h5>
+                    <a href="" class="btn btn-primary font-weight-bold py-2 px-4 mt-2">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </div> --}}
+    <!-- About End -->
+
+
+    <!-- Service Start -->
+    <div class="container-fluid pt-5" id="rating">
+        @if(Session::has('error_message'))
+            <div class="alert alert-danger" role="alert">
+            {{ Session::get('error_message') }}
+            </div>
+        @endif
+        <div class="container">
+            <div class="row">
+
+                <style>
+                    .checked {
+                        color: orange;
+                    }
+
+                    .card{
+                        margin: auto;
+                        width: 600px;
+                        padding: 3rem 3.5rem;
+                        box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+                    }
+
+                    .mt-50 {
+                        margin-top: 50px
+                    }
+
+                    .mb-50 {
+                        margin-bottom: 50px
+                    }
+
+
+                    @media(max-width:767px){
+                        .card{
+                            width: 90%;
+                            padding: 1.5rem;
+                        }
+                    }
+                    @media(height:1366px){
+                        .card{
+                            width: 90%;
+                            padding: 8vh;
+                        }
+                    }
+                    .card-title{
+                        font-weight: 700;
+                        font-size: 2.5em;
+                    }
+                    .nav{
+                        display: flex;
+                    }
+                    .nav ul{
+                        list-style-type: none;
+                        display: flex;
+                        padding-inline-start: unset;
+                        margin-bottom: 6vh;
+                    }
+                    .nav li{
+                        padding: 1rem;
+                    }
+                    .nav li a{
+                        color: black;
+                        text-decoration: none;
+                    }
+                    .active{
+                        border-bottom: 2px solid black;
+                        font-weight: bold;
+                    }
+
+                    input{
+                        border: none;
+                        outline: none;
+                        font-size: 1rem;
+                        font-weight: 600;
+                        color: #000;
+                        width: 100%;
+                        min-width: unset;
+                        background-color: transparent;
+                        border-color: transparent;
+                        margin: 0;
+                    }
+                    form a{
+                        color:grey;
+                        text-decoration: none;
+                        font-size: 0.87rem;
+                        font-weight: bold;
+                    }
+                    form a:hover{
+                        color:grey;
+                        text-decoration: none;
+                    }
+                    form .row{
+                        margin: 0;
+                        overflow: hidden;
+                    }
+                    form .row-1{
+                        border: 1px solid rgba(0, 0, 0, 0.137);
+                        padding: 0.5rem;
+                        outline: none;
+                        width: 100%;
+                        min-width: unset;
+                        border-radius: 5px;
+                        background-color: rgba(221, 228, 236, 0.301);
+                        border-color: rgba(221, 228, 236, 0.459);
+                        margin: 2vh 0;
+                        overflow: hidden;
+                    }
+                    form .row-2{
+                        border: none;
+                        outline: none;
+                        background-color: transparent;
+                        margin: 0;
+                        padding: 0 0.8rem;
+                    }
+                    form .row .row-2{
+                        border: none;
+                        outline: none;
+                        background-color: transparent;
+                        margin: 0;
+                        padding: 0 0.8rem;
+                    }
+                    form .row .col-2,.col-7,.col-3{
+                        display: flex;
+                        align-items: center;
+                        text-align: center;
+                        padding: 0 1vh;
+                    }
+                    form .row .col-2{
+                        padding-right: 0;
+                    }
+
+                    #card-header{
+                        font-weight: bold;
+                        font-size: 0.9rem;
+                    }
+                    #card-inner{
+                        font-size: 0.7rem;
+                        color: gray;
+                    }
+                    .three .col-7{
+                        padding-left: 0;
+                    }
+                    .three{
+                        overflow: hidden;
+                        justify-content: space-between;
+                    }
+                    .three .col-2{
+                        border: 1px solid rgba(0, 0, 0, 0.137);
+                        padding: 0.5rem;
+                        outline: none;
+                        width: 100%;
+                        min-width: unset;
+                        border-radius: 5px;
+                        background-color: rgba(221, 228, 236, 0.301);
+                        border-color: rgba(221, 228, 236, 0.459);
+                        margin: 2vh 0;
+                        width: fit-content;
+                        overflow: hidden; 
+                    }
+                    .three .col-2 input{
+                        font-size: 0.7rem;
+                        margin-left: 1vh;
+                    }
+                    .btn{
+                        width: 100%;
+                        background-color: rgb(65, 202, 127);
+                        border-color: rgb(65, 202, 127);
+                        color: white;
+                        justify-content: center;
+                        padding: 2vh 0;
+                        margin-top: 3vh;
+                    }
+                    .btn:focus{
+                        box-shadow: none;
+                        outline: none;
+                        box-shadow: none;
+                        color: white;
+                        -webkit-box-shadow: none;
+                        -webkit-user-select: none;
+                        transition: none; 
+                    }
+                    .btn:hover{
+                        color: white;
+                    }
+                    input:focus::-webkit-input-placeholder { 
+                        color:transparent; 
+                    }
+                    input:focus:-moz-placeholder { 
+                        color:transparent; 
+                    } 
+                    input:focus::-moz-placeholder { 
+                        color:transparent; 
+                    } 
+                    input:focus:-ms-input-placeholder { 
+                        color:transparent; 
+                    }
+                </style>
+                
+                <div class="card mt-50 mb-50">
+                    <div style="display: flex">
+                        <div class="card-title mx-auto">
+                            Rating
+                        </div>
+                    </div>
+                    <div style="padding-bottom: 50px">
+                        <div class="row align-items-center">
+                            <div class="col-sm-5">
+                                <img class="img-fluid mb-3 mb-sm-0" src="{{ url($product_object->image_file_path) }}" alt="" style="border-radius: 5%">
+                            </div>
+                            <div class="col-sm-7">
+                                <h4>{{ $product_object->name }}</h4>
+                                <h5>Rp. {{ number_format($product_object->price, 2) }}</h5>
+                                <div class="rating-stars" style="display:flex;gap:5px">
+                                    @php
+                                        for($i = 1; $i <= $product_object->rating_star; $i++) {
+                                            echo "<span class='fa fa-star checked' style=font-size:15px'></span>";
+                                        }
+                                    @endphp
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <form action="{{ route('ratings.store', ['rateableType' => 'App\Models\Product', 'rateableId' => $product_id ]) }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="rating" id="rating-input">
+                        <div class="rating-stars" style="display:flex;gap:15px">
+                            <span class="fa fa-star" id="star-1" style="font-size:75px" onclick="chooseStar(1)"></span>
+                            <span class="fa fa-star" id="star-2" style="font-size:75px" onclick="chooseStar(2)"></span>
+                            <span class="fa fa-star" id="star-3" style="font-size:75px" onclick="chooseStar(3)"></span>
+                            <span class="fa fa-star" id="star-4" style="font-size:75px" onclick="chooseStar(4)"></span>
+                            <span class="fa fa-star" id="star-5" style="font-size:75px" onclick="chooseStar(5)"></span>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-success">Submit</button>
+                        <a href="{{ route('profile') }}" class="btn btn-warning">Cancel</a>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- Service End -->
+@endsection
+
+@section('scripts')
+    <script type="text/javascript">
+        const element = document.getElementById("rating");
+        element.scrollIntoView();
+
+        function chooseStar(rating) {
+            let stars = document.getElementsByClassName("fa-star");
+
+            // Remove all active classes
+            for (var i = 0; i < stars.length; i++) {
+                stars[i].classList.remove("checked");
+            }
+            
+            // Add active class to selected stars
+            for (var j = 0; j < rating; j++) {
+                stars[j].classList.add("checked");
+            }
+            
+            let ratingInput = document.getElementById("rating-input");
+            ratingInput.value = rating;
+        }
+    </script>
+@endsection

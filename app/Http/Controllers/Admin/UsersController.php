@@ -17,9 +17,8 @@ class UsersController extends Controller
      */
     public function index(Request $request)
     {
-
-        if(!auth()->user()->user_level == 'Admin') {
-            abort(404);
+        if(auth()->user()->user_level != 'Admin') {
+            return redirect()->route('home');
         }
 
         $users = User::where('user_level', 'Customer')->orderBy('name', 'ASC');
@@ -42,8 +41,8 @@ class UsersController extends Controller
      */
     public function create()
     {
-        if(!auth()->user()->user_level == 'Admin') {
-            abort(404);
+        if(auth()->user()->user_level != 'Admin') {
+            return redirect()->route('home');
         }
 
         return view('admin.users.create');
@@ -57,8 +56,8 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        if(!auth()->user()->user_level == 'Admin') {
-            abort(404);
+        if(auth()->user()->user_level != 'Admin') {
+            return redirect()->route('home');
         }
 
         $validationRules = [
@@ -91,8 +90,8 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-        if(!auth()->user()->user_level == 'Admin') {
-            abort(404);
+        if(auth()->user()->user_level != 'Admin') {
+            return redirect()->route('home');
         }
 
         $user = User::where('user_level', 'Customer')
@@ -128,8 +127,8 @@ class UsersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if(!auth()->user()->user_level == 'Admin') {
-            abort(404);
+        if(auth()->user()->user_level != 'Admin') {
+            return redirect()->route('home');
         }
 
         $user = User::where('user_level', 'Customer')
@@ -171,8 +170,8 @@ class UsersController extends Controller
      */
     public function destroy(Request $request)
     {
-        if(!auth()->user()->user_level == 'Admin') {
-            abort(404);
+        if(auth()->user()->user_level != 'Admin') {
+            return redirect()->route('home');
         }
 
         $user = User::where('user_level', 'Customer')

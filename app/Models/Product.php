@@ -22,4 +22,14 @@ class Product extends Model
         'price',
         'image_file_path'
     ];
+
+    public function ratings()
+    {
+        return $this->morphMany(Rating::class, 'rateable');
+    }
+
+    public function averageRating()
+    {
+        return $this->ratings()->avg('rating');
+    }
 }

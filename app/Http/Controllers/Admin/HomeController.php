@@ -15,6 +15,10 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {   
+        if(auth()->user()->user_level != 'Admin') {
+            return redirect()->route('home');
+        }
+
         return view('admin.home');
     }
 }

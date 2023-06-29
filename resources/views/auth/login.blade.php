@@ -4,7 +4,7 @@
   <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Admin Warung Mbo'e</title>
+    <title>Admin Admin</title>
 
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -39,7 +39,7 @@
         <div class="card-body login-card-body">
           <p class="login-box-msg">Selamat Datang</p>
     
-          <form action="{{ route('login') }}" method="post">
+          <form action="{{ route('admin-do-login') }}" method="post">
             @csrf
             <div class="input-group mb-3">
               <input name="email" type="email" class="form-control" placeholder="Email">

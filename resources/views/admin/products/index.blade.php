@@ -8,12 +8,12 @@
             <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-12 col-md-6">
-                <h1>Products Management</h1>
+                <h1>Stocks Management</h1>
                 </div>
                 <div class="col-sm-12 col-md-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{ route('admin.home') }}">Home</a></li>
-                    <li class="breadcrumb-item active">Products</li>
+                    <li class="breadcrumb-item active">Stocks</li>
                 </ol>
                 </div>
             </div>
@@ -40,7 +40,7 @@
             <div class="card">
                 <div class="card-header">
                     <p>
-                        Search Product
+                        Search Stock
                     </p>
                     <form action="{{ route('admin.products.index') }}" method="GET">
                         <div style="display: flex;gap:20px">
@@ -86,7 +86,7 @@
                     <h3 class="card-title mr-2">
                         <a class="btn btn-primary btn-sm" href={{ route('admin.products.create') }}>
                             <i class="fas fa-plus" style="margin-right: 10px"></i>
-                            Create New Product
+                            Create New Stock
                         </a>
                     </h3>
                 </div>
