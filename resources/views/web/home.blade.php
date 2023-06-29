@@ -6,12 +6,11 @@
         <div id="blog-carousel" class="carousel slide overlay-bottom" data-ride="carousel">
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <img class="w-100" src="{{ asset('web-asset/img/background.jpg') }}" alt="Image">
+                    <img class="w-100" style="height: 500px" src="{{ asset('web-asset/img/background.jpg') }}" alt="Image">
                     <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                         {{-- <h2 class="text-primary font-weight-medium m-0">We Have Been Serving</h2> --}}
                         <h1 class="display-1 text-white m-0">Warung Mbo'e</h1>
-                        <h2 class="text-white m-0">* Sejak 2022 *</h2>
-                        <h3 class="text-white m-0">Warung Mbo’e adalah salah satu Usaha Micro Kecil Menengah yang diorganisir secara komersil di daerah perumahan bumi sawangan indah 2 kota depok. Saat ini banyak rumah makan yang proses transaksi jual belinya dilakukan secara online.</h3>
+                        
                     </div>
                 </div>
             </div>
@@ -21,35 +20,36 @@
 
 
     <!-- About Start -->
-    {{-- <div class="container-fluid py-5">
+    <div class="container-fluid py-5">
         <div class="container">
             <div class="section-title">
-                <h4 class="text-primary text-uppercase" style="letter-spacing: 5px;">About Us</h4>
-                <h1 class="display-4">Serving Since 1950</h1>
+                <h4 class="text-primary text-uppercase" style="letter-spacing: 5px;">Tentang Kami</h4>
             </div>
             <div class="row">
-                <div class="col-lg-4 py-0 py-lg-5">
-                    <h1 class="mb-3">Our Story</h1>
-                    <h5 class="mb-3">Eos kasd eos dolor vero vero, lorem stet diam rebum. Ipsum amet sed vero dolor sea</h5>
-                    <p>Takimata sed vero vero no sit sed, justo clita duo no duo amet et, nonumy kasd sed dolor eos diam lorem eirmod. Amet sit amet amet no. Est nonumy sed labore eirmod sit magna. Erat at est justo sit ut. Labor diam sed ipsum et eirmod</p>
-                    <a href="" class="btn btn-secondary font-weight-bold py-2 px-4 mt-2">Learn More</a>
-                </div>
-                <div class="col-lg-4 py-5 py-lg-0" style="min-height: 500px;">
-                    <div class="position-relative h-100">
-                        <img class="position-absolute w-100 h-100" src="{{ asset('web-asset/img/about.png') }}" style="object-fit: cover;">
-                    </div>
-                </div>
-                <div class="col-lg-4 py-0 py-lg-5">
-                    <h1 class="mb-3">Our Vision</h1>
-                    <p>Invidunt lorem justo sanctus clita. Erat lorem labore ea, justo dolor lorem ipsum ut sed eos, ipsum et dolor kasd sit ea justo. Erat justo sed sed diam. Ea et erat ut sed diam sea ipsum est dolor</p>
-                    <h5 class="mb-3"><i class="fa fa-check text-primary mr-3"></i>Lorem ipsum dolor sit amet</h5>
-                    <h5 class="mb-3"><i class="fa fa-check text-primary mr-3"></i>Lorem ipsum dolor sit amet</h5>
-                    <h5 class="mb-3"><i class="fa fa-check text-primary mr-3"></i>Lorem ipsum dolor sit amet</h5>
-                    <a href="" class="btn btn-primary font-weight-bold py-2 px-4 mt-2">Learn More</a>
+                <div class="col-md-40" style="width: 100%">
+                    <h5>
+                        Selamat datang di Warung Makan Mbo'e! Kami adalah warung makan yang berdedikasi untuk memberikan pengalaman kuliner yang luar biasa kepada pelanggan kami. Kami menggabungkan keahlian kuliner kami dengan cinta dan dedikasi untuk menciptakan hidangan lezat yang tak terlupakan.
+                    </h5>
+                    <br>
+                    <h5>
+                        Di Warung Makan Mbo'e, kami percaya bahwa makanan bukan hanya tentang memenuhi kebutuhan fisik, tetapi juga tentang membangun kenangan dan menghubungkan orang-orang. Itulah sebabnya kami berkomitmen untuk menyajikan hidangan dengan kualitas terbaik dan pelayanan yang ramah.
+                    </h5>
+                    <br>
+                    <h5>
+                        Setiap hidangan kami disiapkan dengan hati-hati oleh tim koki berbakat kami. Kami menggunakan bahan-bahan segar dan berkualitas tinggi untuk menciptakan rasa yang autentik dan lezat. Dari rempah-rempah pilihan hingga teknik memasak yang cermat, setiap detail diperhatikan agar hidangan kami memberikan kepuasan penuh bagi lidah Anda.
+                    </h5>
+                    <br>
+                    <h5>
+                        Selain itu, kami juga menghargai kebersihan dan kebersihan yang tinggi dalam setiap aspek operasional kami. Kami menjaga standar kebersihan yang ketat untuk memastikan bahwa setiap hidangan disajikan dengan kebersihan dan keamanan yang terjamin.
+                    </h5>
+                    <br>
+                    <h5>
+                        Terima kasih telah memilih Warung Makan Mbo'e. Kami berharap dapat menyambut Anda dengan senyuman hangat dan hidangan lezat. Bersama-sama, mari kita menjelajahi dunia cita rasa dan kepuasan kuliner.
+                    </h5>
                 </div>
             </div>
         </div>
-    </div> --}}
+    </div>
     <!-- About End -->
 
 

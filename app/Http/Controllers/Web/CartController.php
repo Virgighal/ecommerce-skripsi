@@ -267,6 +267,7 @@ class CartController extends Controller
         $order->bukti_pembayaran = $imageFilePath;
         $order->total_price = $totalPrice;
         $order->status = 'Menunggu Konfirmasi';
+        $order->delivery_address = $request->delivery_address;
         $order->save();
 
         foreach($cartItems as $item) 

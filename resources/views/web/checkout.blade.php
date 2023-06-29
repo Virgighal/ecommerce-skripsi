@@ -6,11 +6,11 @@
         <div id="blog-carousel" class="carousel slide overlay-bottom" data-ride="carousel">
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <img class="w-100" src="{{ asset('web-asset/img/header-home.jpeg') }}" alt="Image">
+                    <img class="w-100" style="height: 500px" src="{{ asset('web-asset/img/header-home.jpeg') }}" alt="Image">
                     <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                         {{-- <h2 class="text-primary font-weight-medium m-0">We Have Been Serving</h2> --}}
                         <h1 class="display-1 text-white m-0">Warung Mbo'e</h1>
-                        <h2 class="text-white m-0">* Sejak 2022 *</h2>
+                        
                         <h3 class="text-white m-0">Warung Mbo’e adalah salah satu Usaha Micro Kecil Menengah yang diorganisir secara komersil di daerah perumahan bumi sawangan indah 2 kota depok. Saat ini banyak rumah makan yang proses transaksi jual belinya dilakukan secara online.</h3>
                     </div>
                 </div>
@@ -54,11 +54,6 @@
 
     <!-- Service Start -->
     <div class="container-fluid pt-5" id="checkout">
-        @if(Session::has('error_message'))
-            <div class="alert alert-danger" role="alert">
-            {{ Session::get('error_message') }}
-            </div>
-        @endif
         <div class="container">
             <div class="row">
 
@@ -246,6 +241,11 @@
                 </style>
                 
                 <div class="card mt-50 mb-50">
+                    @if(Session::has('error_message'))
+                        <div class="alert alert-danger" role="alert">
+                        {{ Session::get('error_message') }}
+                        </div>
+                    @endif
                     <div class="card-title mx-auto">
                         Checkout
                     </div>
@@ -269,6 +269,12 @@
                         <div class="row-1">
                             <div class="row row-2">
                                 <input type="file" name="image" id="image" accept=".jpg,.jpeg,.png">
+                            </div>
+                        </div>
+                        <span id="card-header">Alamat Pengiriman:</span>
+                        <div class="row-1">
+                            <div class="row row-2">
+                                <textarea class="form-control" name="alamat_pengiriman" id="" cols="30" rows="10">{{ auth()->user()->address }}</textarea>
                             </div>
                         </div>
                         <button class="btn d-flex mx-auto"><b>Checkout</b></button>

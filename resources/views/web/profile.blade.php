@@ -6,11 +6,11 @@
         <div id="blog-carousel" class="carousel slide overlay-bottom" data-ride="carousel">
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <img class="w-100" src="{{ asset('web-asset/img/background.jpg') }}" alt="Image">
+                    <img class="w-100" style="height: 500px" src="{{ asset('web-asset/img/background.jpg') }}" alt="Image">
                     <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                         {{-- <h2 class="text-primary font-weight-medium m-0">We Have Been Serving</h2> --}}
                         <h1 class="display-1 text-white m-0">Warung Mbo'e</h1>
-                        <h2 class="text-white m-0">* Sejak 2022 *</h2>
+                        
                     </div>
                 </div>
             </div>
@@ -154,10 +154,10 @@
                         <div class="tab-vertical">
                             <ul class="nav nav-tabs" id="myTab3" role="tablist">
                                 <li class="nav-item">
-                                    <a class="nav-link active" id="my-profile-tab" data-toggle="tab" href="#my-profile" role="tab" aria-controls="home" aria-selected="true">My Profile</a>
+                                    <a class="nav-link active" id="my-profile-tab" data-toggle="tab" href="#my-profile" role="tab" aria-controls="home" aria-selected="true"> <i class="fa fa-user" style="color: black;padding-right:10px"></i>My Profile</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" id="order-history-tab" data-toggle="tab" href="#order-history" role="tab" aria-controls="profile" aria-selected="false">Order History</a>
+                                    <a class="nav-link" id="order-history-tab" data-toggle="tab" href="#order-history" role="tab" aria-controls="profile" aria-selected="false"><i class="fa fa-clock" style="color: black;padding-right:10px"></i> Order History</a>
                                 </li>
                                 <li class="nav-item">
                                     <form action="{{ route('logout') }}" method="POST" id='logoutForm'>
@@ -170,7 +170,7 @@
                                             }
                                         }
                                     </script>
-                                    <a class="nav-link" style="background-color: #ff407b;color:white" href="#" role="tab" onclick='confirmLogout()'>Log Out</a>
+                                    <a class="nav-link" style="background-color: #ff6c9b;color:white" href="#" role="tab" onclick='confirmLogout()'><i class="fa fa-power-off" style="color: black;padding-right:10px"></i> Log Out</a>
                                 </li>
                             </ul>
                             <div class="tab-content" id="myTabContent3">

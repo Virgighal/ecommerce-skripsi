@@ -65,19 +65,6 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="col-md-12">
-                                        <label for="status">Status</label>
-                                        <select name="status" id="status" class="selectpicker">
-                                            <option value="">Please Select</option>
-                                            <option value="Menunggu Konfirmasi" @if($order->status == 'Menunggu Konfirmasi') selected @endif>Menunggu Konfirmasi</option>
-                                            <option value="Konfirmasi" @if($order->status == 'Konfirmasi') selected @endif>Konfirmasi</option>
-                                        </select>
-                                        @error('status')
-                                            <div class="invalid-feedback" style="display: block !important;">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-md-12">
                                         <label for="total_price">Total Price</label>
                                         <input type="number" name="total_price" id="total_price"
                                             class="form-control"
@@ -87,9 +74,34 @@
                                         @enderror
                                     </div>
                                 </div>
+                                
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <label for="delivery_address">Delivery Address</label>
+                                        <textarea class="form-control" name="delivery_address" disabled id="" cols="30" rows="10">{{ $order->delivery_address }}</textarea>
+                                        @error('total_price')
+                                            <div class="invalid-feedback" style="display: block !important;">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+
                                 <div class="form-group">
                                     <div style="padding-top: 10px">
                                         <img src="{{ url($order->bukti_pembayaran) }}" alt="">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <label for="status">Status</label>
+                                        <select name="status" id="status" class="selectpicker">
+                                            <option value="">Please Select</option>
+                                            <option value="Menunggu Konfirmasi" @if($order->status == 'Menunggu Konfirmasi') selected @endif>Menunggu Konfirmasi</option>
+                                            <option value="Konfirmasi" @if($order->status == 'Konfirmasi') selected @endif>Konfirmasi</option>
+                                        </select>
+                                        @error('status')
+                                            <div class="invalid-feedback" style="display: block !important;">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                 </div>
                                 <input type="submit" value="Update Order" class="btn btn-success float-right">
