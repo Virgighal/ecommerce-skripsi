@@ -46,6 +46,8 @@ Route::middleware('web-auth')->group(function() {
     Route::get('profile', [ProfileController::class, 'index'])->name('profile');
     Route::get('ratings/{rateableType}/{rateableId}', [RatingController::class, 'rating'])->name('ratings.index');
     Route::post('add-to-cart', [CartController::class, 'add'])->name('add-to-cart');
+    Route::post('deduct', [CartController::class, 'deduct'])->name('deduct');
+    Route::post('delete', [CartController::class, 'delete'])->name('delete');
     Route::post('pay', [CartController::class, 'pay'])->name('pay');
     Route::post('change-profile', [ProfileController::class, 'changeProfile'])->name('change-profile');
     Route::post('ratings/{rateableType}/{rateableId}', [RatingController::class, 'store'])->name('ratings.store');

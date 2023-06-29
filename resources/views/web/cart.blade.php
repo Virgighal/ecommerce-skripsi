@@ -59,32 +59,60 @@
                 <div class="cart_section">
                     <div class="container-fluid">
                         <div class="row">
-                            <div class="col-lg-10 offset-lg-1">
+                            <div class="col-md-12">
                                 <div class="cart_container">
                                     <div class="cart_title">Keranjang<small> ({{ $total_products }} Item) </small></div>
                                     <div class="cart_items">
                                         <ul class="cart_list">
-                                            @foreach ($cart_items as $item)
+                                            @foreach ($cart_items as $index => $item)
                                                 <li class="cart_item clearfix">
                                                     <div class="cart_item_image">
                                                         <img src="{{ url($item->product->image_file_path) }}" alt="">
                                                     </div>
-                                                    <div class="cart_item_info d-flex flex-md-row flex-column justify-content-between">
-                                                        <div class="cart_item_name cart_info_col" style="width: 20%">
+                                                    <div class="cart_item_info" style="display: flex;justify-content:space-between;gap:30px">
+                                                        <div class="cart_item_name cart_info_col" style="width: 50%">
                                                             <div class="cart_item_title">Nama</div>
                                                             <div class="cart_item_text">{{ $item->product->name }}</div>
                                                         </div>
-                                                        <div class="cart_item_quantity cart_info_col">
+                                                        <div class="cart_item_quantity cart_info_col" style="width: 25%">
                                                             <div class="cart_item_title">Jumlah</div>
-                                                            <div class="cart_item_text">{{ $item->quantity }}</div>
+                                                            <div style="display: flex;gap:10px">
+                                                                <div class="cart_item_text mt-10">
+                                                                    <form action="{{ route('deduct') }}" method="POST" class="deduct-form">
+                                                                        @csrf
+                                                                        <input type="hidden" name="product_id" value="{{ $item->product->id }}">
+                                                                        <i onclick="confirmDeduct(event)" class="fa fa-minus-circle" style="color: red"></i>
+                                                                    </form>
+                                                                </div>
+
+                                                                <div class="cart_item_text">{{ $item->quantity }}</div>
+
+                                                                <div class="cart_item_text">
+                                                                    <form action="{{ route('add-to-cart') }}" method="POST" class="add-form">
+                                                                        @csrf
+                                                                        <input type="hidden" name="product_id" value="{{ $item->product->id }}">
+                                                                        <i onclick="confirmAdd(event)" class="fa fa-plus-circle" style="color: green"></i>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                        <div class="cart_item_price cart_info_col">
+                                                        <div class="cart_item_price cart_info_col" style="width: 25%">
                                                             <div class="cart_item_title">Harga</div>
                                                             <div class="cart_item_text">Rp {{ number_format($item->product->price) }}</div>
                                                         </div>
-                                                        <div class="cart_item_total cart_info_col">
+                                                        <div class="cart_item_total cart_info_col" style="width: 25%">
                                                             <div class="cart_item_title">Total</div>
                                                             <div class="cart_item_text">Rp {{ number_format($item->price) }}</div>
+                                                        </div>
+                                                        <div class="cart_item_name cart_info_col" style="width: 20%">
+                                                            <div class="cart_item_title">Option</div>
+                                                            <div class="cart_item_text">
+                                                                <form action="{{ route('delete') }}" method="POST" class="delete-form">
+                                                                    @csrf
+                                                                    <input type="hidden" name="product_id" value="{{ $item->product->id }}">
+                                                                    <i onclick="confirmDelete(event)" class="fa fa-trash" style="color: red"></i>
+                                                                </form>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </li>
@@ -192,5 +220,26 @@
     <script type="text/javascript">
         const element = document.getElementById("shopping-cart");
         element.scrollIntoView();
+
+        function confirmDeduct(event) {
+            event.preventDefault();
+            if (confirm("Apakah ingin mengurangi jumlah pemesanan?")) {
+                event.target.parentNode.submit();
+            }
+        }
+
+        function confirmAdd(event) {
+            event.preventDefault();
+            if (confirm("Apakah ingin menambah jumlah pemesanan?")) {
+                event.target.parentNode.submit();
+            }
+        }
+
+        function confirmDelete(event) {
+            event.preventDefault();
+            if (confirm("Apakah ingin menambah jumlah pemesanan?")) {
+                event.target.parentNode.submit();
+            }
+        }
     </script>
 @endsection

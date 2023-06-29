@@ -103,6 +103,104 @@ class CartController extends Controller
 
         return redirect()->route('cart');
     }
+
+    /**
+     * Shows the homepage to the user.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function deduct(Request $request)
+    {   
+        $user = auth()->user();
+        if(!empty($user) && $user->user_level != 'User') {
+            return redirect()->route('admin.home');
+        }
+
+        $cart = Cart::where('user_id', $user->id)->first();
+        if (empty($cart)) {
+            $cart = new Cart;
+            $cart->user_id = $user->id;
+            $cart->save();
+        }
+
+        $product = Product::where('id', $request->product_id)->first();
+        
+        $checkCartItem = CartItem::where('product_id', $product->id)->where('cart_id', $cart->id)->where('checkout', 0)->first();
+        if(!empty($checkCartItem)) {
+            $cartItem = CartItem::where('product_id', $product->id)->where('cart_id', $cart->id)->where('checkout', 0)->first();
+
+            if($cartItem->quantity == 1) {
+                $cartItem->delete();
+            } else {
+                $cartItem->quantity -= 1;
+                $cartItem->price = $product->price * $cartItem->quantity;
+                $cartItem->save();
+            }
+        } 
+
+        $cartItems = CartItem::where('cart_id', $cart->id)->get();
+        $totalPrice = 0;
+
+        if(count($cartItems) > 0) {
+            foreach($cartItems as $item) 
+            {
+                $product = Product::where('id', $item->product_id)->first();
+                $item->product = $product;
+                $totalPrice += $item->price;
+            }
+        } else {
+            $cart->delete();
+        }
+
+        return redirect()->back();
+    }
+
+    /**
+     * Shows the homepage to the user.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function delete(Request $request)
+    {   
+        $user = auth()->user();
+        if(!empty($user) && $user->user_level != 'User') {
+            return redirect()->route('admin.home');
+        }
+
+        $cart = Cart::where('user_id', $user->id)->first();
+        if (empty($cart)) {
+            $cart = new Cart;
+            $cart->user_id = $user->id;
+            $cart->save();
+        }
+
+        $product = Product::where('id', $request->product_id)->first();
+        
+        $checkCartItem = CartItem::where('product_id', $product->id)->where('cart_id', $cart->id)->where('checkout', 0)->first();
+        if(!empty($checkCartItem)) {
+            $cartItem = CartItem::where('product_id', $product->id)->where('cart_id', $cart->id)->where('checkout', 0)->first();
+
+            $cartItem->delete();
+        } 
+
+        $cartItems = CartItem::where('cart_id', $cart->id)->get();
+        $totalPrice = 0;
+
+        if(count($cartItems) > 0) {
+            foreach($cartItems as $item) 
+            {
+                $product = Product::where('id', $item->product_id)->first();
+                $item->product = $product;
+                $totalPrice += $item->price;
+            }
+        } else {
+            $cart->delete();
+        }
+
+        return redirect()->back();
+    }
     
 
     public function checkout(Request $request)
