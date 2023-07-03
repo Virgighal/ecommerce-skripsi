@@ -52,7 +52,7 @@
                     <a href="{{ route('cart') }}" class="nav-item nav-link @if($active_menu == 'cart') active @endif">Keranjang</a>
                     <a href="{{ route('profile') }}" class="nav-item nav-link @if($active_menu == 'profile') active @endif">Profile</a>
                     @if(empty(auth()->user()))
-                        <a href="{{ route('admin.home') }}" class="nav-item nav-link">Admin Panel</a>
+                        <a href="{{ route('admin.home') }}" class="nav-item nav-link">Admin</a>
                     @endif
                 </div>
             </div>
