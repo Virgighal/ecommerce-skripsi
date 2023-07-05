@@ -9,16 +9,40 @@ use Illuminate\Http\Request;
 
 class CommentsController extends Controller
 {
+
+    public function index(Request $request)
+    {
+        if(!empty(auth()->user()) && auth()->user()->user_level != 'User') {
+            return redirect()->route('admin.home');
+        }
+
+        $orderId = $request->order_id;
+
+        $order = Order::where('id', $orderId)->first();
+        if(empty($order)) {
+            return redirect()->back()->with('error_message', 'order is no longer exists!');
+        }
+
+        // find comment
+        $comments = Comment::where('order_id', $order->id)->get();
+    
+
+        return view('web.comment', [
+            'active_menu' => 'comment',
+            'order_id' => $orderId,
+            'comments' => $comments
+        ]);
+    }
+
     /**
      * send comment
      *
      * @param Request $request
      * @return void
      */
-    public function send(Request $request)
+    public function store(Request $request, $orderId)
     {
         $user = auth()->user();
-        $orderId = $request->order_id;
 
         // find order
         $order = Order::where('id', $orderId)->first();
@@ -32,11 +56,12 @@ class CommentsController extends Controller
 
         $comment = new Comment();
         $comment->user_id = $user->id;
+        $comment->username = $user->name;
         $comment->order_id = $order->id;
         $comment->text = $request->text;
         $comment->save();
 
-        return redirect()->with('success_message', 'Successfully send comment');
+        return redirect()->route('profile')->with('success_message', 'Successfully send comment');
         
     }
 

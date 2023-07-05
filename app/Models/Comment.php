@@ -10,7 +10,7 @@ class Comment extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $table = 'orders';
+    protected $table = 'comments';
 
     /**
      * The attributes that are mass assignable.

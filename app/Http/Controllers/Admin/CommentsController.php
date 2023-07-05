@@ -9,19 +9,42 @@ use Illuminate\Http\Request;
 
 class CommentsController extends Controller
 {
+
+    /**
+     * go to create product page
+     *
+     * @return void
+     */
+    public function create($id)
+    {
+        if(auth()->user()->user_level != 'Admin') {
+            return redirect()->route('home');
+        }
+
+        $commentId = $id;
+
+        return view('admin.comments.create')
+            ->with('commentId', $commentId);
+    }
+
     /**
      * send comment
      *
      * @param Request $request
      * @return void
      */
-    public function send(Request $request)
+    public function store(Request $request, $commentId)
     {
         $user = auth()->user();
-        $orderId = $request->order_id;
+
+        // find comment
+        $comment = Comment::where('id', $commentId)->first();
+        if(empty($comment)) {
+            return redirect()->back()->with('error_message', 'Sorry! this comment is no longer exists');
+        }
 
         // find order
-        $order = Order::where('id', $orderId)->first();
+        $order = Order::where('id', $comment->order_id)->first();
         if(empty($order)) {
             return redirect()->back()->with('error_message', 'Sorry! this order is no longer exists');
         }
@@ -32,12 +55,33 @@ class CommentsController extends Controller
 
         $comment = new Comment();
         $comment->user_id = $user->id;
+        $comment->username = $user->name;
         $comment->order_id = $order->id;
         $comment->text = $request->text;
         $comment->save();
 
-        return redirect()->with('success_message', 'Successfully send comment');
+        return redirect()->route('admin.comments.show', [
+            $comment->order_id
+        ])->with('success_message', 'Successfully send comment');
         
+    }
+
+    /**
+     * Shows the homepage to the user.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Request $request, $orderId)
+    {   
+        if(auth()->user()->user_level != 'Admin') {
+            return redirect()->route('home');
+        }
+
+        $comments = Comment::orderBy('id', 'ASC')->where('order_id', $orderId)->paginate(25);
+
+        return view('admin.comments.show')
+            ->with('comments', $comments);
     }
 
     /**

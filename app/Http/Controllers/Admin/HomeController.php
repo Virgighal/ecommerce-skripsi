@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Comment;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -19,6 +20,9 @@ class HomeController extends Controller
             return redirect()->route('home');
         }
 
-        return view('admin.home');
+        $comments = Comment::orderBy('id', 'DESC')->groupBy('order_id')->paginate(25);
+
+        return view('admin.home')
+            ->with('comments', $comments);
     }
 }

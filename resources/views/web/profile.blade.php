@@ -240,6 +240,14 @@
                                                                             <i class="fas fa-star"></i> Beri Rating
                                                                         </a>
                                                                     @endif
+                                                                    <br>
+                                                                    <br>
+                                                                    <a class="btn btn-primary btn-sm" href="{{ route('comment', 
+                                                                    [
+                                                                        'order_id' => $order->id,
+                                                                    ]) }}">
+                                                                    <i class="fa fa-comment" aria-hidden="true"></i> Beri Komentar
+                                                                </a>
                                                                 <td>
                                                             </tr>
                                                         @endforeach

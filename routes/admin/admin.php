@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\CommentsController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\UsersController;
@@ -32,5 +33,11 @@ Route::middleware('auth')->group(function() {
         Route::get('/', [OrderController::class, 'index'])->name('index');
         Route::get('/{id}', [OrderController::class, 'show'])->name('show');
         Route::post('update/{id}', [OrderController::class, 'update'])->name('update');
+    });
+
+    Route::prefix('comments')->name('comments.')->group(function() {
+        Route::get('/{id}', [CommentsController::class, 'create'])->name('create');
+        Route::get('comment/{orderId}', [CommentsController::class, 'show'])->name('show');
+        Route::post('store/{commentId}', [CommentsController::class, 'store'])->name('store');
     });
 });

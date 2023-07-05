@@ -52,6 +52,7 @@
                     <a href="{{ route('home') }}" class="nav-item nav-link @if($active_menu == 'home') active @endif">Beranda</a>
                     <a href="{{ route('menu') }}" class="nav-item nav-link @if($active_menu == 'menu') active @endif">Menu</a>
                     <a href="{{ route('cart') }}" class="nav-item nav-link @if($active_menu == 'cart') active @endif">Keranjang</a>
+                    <a href="{{ route('info') }}" class="nav-item nav-link @if($active_menu == 'info') active @endif">Info Pembayaran</a>
                     <a href="{{ route('profile') }}" class="nav-item nav-link @if($active_menu == 'profile') active @endif">Profile</a>
                     @if(empty(auth()->user()))
                         <a href="{{ route('admin.home') }}" class="nav-item nav-link">Admin</a>
