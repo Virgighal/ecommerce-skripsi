@@ -41,7 +41,7 @@
     <div class="container-fluid p-0 nav-bar">
         <nav class="navbar navbar-expand-lg bg-none navbar-dark py-3">
             <a href="{{ route('home') }}" class="navbar-brand px-lg-4 m-0">
-                <img src="{{ asset('web-asset/img/logo.jpeg') }}" alt="Image" style="width: 100px;height:100px;border-radius:10px">
+                <img src="{{ asset('web-asset/img/logo.jpeg') }}" alt="Image" style="width: 70px;height:70px;border-radius:10px">
             </a>
             <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
                 <img src="" alt="">
