@@ -41,7 +41,6 @@
     <div class="container-fluid p-0 nav-bar">
         <nav class="navbar navbar-expand-lg bg-none navbar-dark py-3">
             <a href="index.html" class="navbar-brand px-lg-4 m-0">
-                <h1 class="m-0 display-4 text-white">Warung Mbo'e</h1>
             </a>
             <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
                 <span class="navbar-toggler-icon"></span>
@@ -53,7 +52,7 @@
                     <a href="{{ route('cart') }}" class="nav-item nav-link @if($active_menu == 'cart') active @endif">Keranjang</a>
                     <a href="{{ route('profile') }}" class="nav-item nav-link @if($active_menu == 'profile') active @endif">Profile</a>
                     @if(empty(auth()->user()))
-                        <a href="{{ route('admin.home') }}" class="nav-item nav-link">Admin Panel</a>
+                        <a href="{{ route('admin.home') }}" class="nav-item nav-link">Admin</a>
                     @endif
                 </div>
             </div>
@@ -69,7 +68,7 @@
         <div class="row mx-0 pt-5 px-sm-3 px-lg-5 mt-4">
             <div class="col-lg-3 col-md-6 mb-5">
                 <h4 class="text-white text-uppercase mb-4" style="letter-spacing: 3px;">Hubungi Kami</h4>
-                <p><i class="fa fa-map-marker-alt mr-2"></i>BSI 2 Jl. Cendrawasih 9A Blok C4 RT 04/10 No 12 Kelurahan Pengasinan, Kecamatan Sawangan, Kota Depok</p>
+                <p><i class="fa fa-map-marker-alt mr-2"></i>BSI 2 Jl. Cendrawasih 9A Blok C4 RT 04/10 No 12 Kelurahan Pengasinan, Kecamatan Sawangan, Kota Depok, Kode Pos 16518</p>
                 <p><i class="fa fa-phone-alt mr-2"></i>+6812-8304-4180</p>
                 <p class="m-0"><i class="fa fa-envelope mr-2"></i>achmadnurrohman9@gmail.com</p>
                 <p class="m-0"><i class="fa fa-envelope mr-2"></i>wahyurasyidalmanan@gmail.com</p>
