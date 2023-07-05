@@ -22,7 +22,7 @@ class OrderController extends Controller
             return redirect()->route('home');
         }
 
-        $orders = Order::paginate(10);
+        $orders = Order::orderBy('id', 'DESC')->paginate(10);
 
         return view('admin.orders.index', [
             'orders' => $orders
