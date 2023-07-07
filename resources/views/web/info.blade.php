@@ -36,7 +36,7 @@
                     </h5>
                     <br>
                     <h5>
-                        1. Setelah Anda memesan pembelian Anda melalui marketplace tertentu, penjual mengirim pesanan melalui karyawan warung mbo'e tersebut.  untuk mengirimkan kiriman dan mengumpulkan pembayaran.
+                        1. Setelah Anda memesan pembelian Anda melalui marketplace tertentu, penjual mengirim pesanan melalui karyawan warung mbo'e tersebut.  untuk mengirimkan kiriman dan mengumpulkan pembayaran bisa melalui via bank Mandiri A.n Wahyu Rasyid Almanan 1330023865355 .
                     </h5>
                     <br>
                     <h5>
