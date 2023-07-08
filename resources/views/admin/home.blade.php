@@ -9,7 +9,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-12 col-md-6">
-                    <h1>Welcome to Ecommerce Platform Admin Panel</h1>
+                    <h1>Laporan Penjualan Dan Komplain</h1>
                 </div>
                 <div class="col-sm-12 col-md-6">
                     <ol class="breadcrumb float-sm-right">
