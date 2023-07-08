@@ -72,8 +72,8 @@
             <div class="col-lg-3 col-md-6 mb-5">
                 <h4 class="text-white text-uppercase mb-4" style="letter-spacing: 3px;">Hubungi Kami</h4>
                 <p><i class="fa fa-map-marker-alt mr-2"></i>BSI 2 Jl. Cendrawasih 9A Blok C4 RT 04/10 No 12 Kelurahan Pengasinan, Kecamatan Sawangan, Kota Depok, Kode Pos 16518</p>
-                <p><i class="fa fa-phone-alt mr-2"></i>+62812-8304-4180</p>
-                <p><i class="fa fa-phone-alt mr-2"></i>+62878-7630-7623</p>
+                <p><i class="fa fa-phone-alt mr-2"></i>+62812-8304-4180 Ibu Kuswati</p>
+                <p><i class="fa fa-phone-alt mr-2"></i>+62878-7630-7623 Wahyu Rasyid Almanan</p>
                 <p class="m-0"><i class="fa fa-envelope mr-2"></i>achmadnurrohman9@gmail.com</p>
                 <p class="m-0"><i class="fa fa-envelope mr-2"></i>wahyurasyidalmanan@gmail.com</p>
             </div>
