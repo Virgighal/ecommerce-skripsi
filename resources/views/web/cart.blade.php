@@ -235,7 +235,7 @@
 
         function confirmDelete(event) {
             event.preventDefault();
-            if (confirm("Apakah ingin menambah jumlah pemesanan?")) {
+            if (confirm("Apakah ingin menghapus pemesanan?")) {
                 event.target.parentNode.submit();
             }
         }
