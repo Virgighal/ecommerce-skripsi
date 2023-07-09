@@ -66,6 +66,6 @@
 
 @section('scripts')
     <script type="text/javascript">
-    $("select").selectize();
+        $("select").selectize();
     </script>
 @endsection

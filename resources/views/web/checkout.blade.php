@@ -270,9 +270,14 @@
                             </div>
                         </div>
                         <span id="card-header">Alamat Pengiriman:</span>
-                        <div class="row-1">
-                            <div class="row row-2">
-                                <textarea class="form-control" name="alamat_pengiriman" id="" cols="30" rows="10">{{ auth()->user()->address }}</textarea>
+                        <div class="row-1" style="height:100px">
+                            <div style="height:100px">
+                               <select name="location_id" id="locationId">
+                                    <option value="">Please Select</option>
+                                    @foreach ($locations as $location)
+                                        <option value="{{ $location->id }}">{{ $location->name }}</option>
+                                    @endforeach
+                               </select>
                             </div>
                         </div>
                         <button class="btn d-flex mx-auto"><b>Checkout</b></button>
@@ -289,5 +294,7 @@
     <script type="text/javascript">
         const element = document.getElementById("checkout");
         element.scrollIntoView();
+
+        $("#locationId").selectize();
     </script>
 @endsection

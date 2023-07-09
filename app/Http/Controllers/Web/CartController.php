@@ -7,8 +7,10 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Cart;
 use App\Models\CartItem;
+use App\Models\Location;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Services\RadiusCheckerService;
 
 class CartController extends Controller
 {
@@ -224,9 +226,12 @@ class CartController extends Controller
             $totalPrice += $item->price;
         }
 
+        $locations = Location::orderBy('name', 'ASC')->get();
+
         return view('web.checkout', [
             'active_menu' => 'cart',
-            'total_price' => $totalPrice
+            'total_price' => $totalPrice,
+            'locations' => $locations
         ]);
     }
 
@@ -239,6 +244,32 @@ class CartController extends Controller
 
         if(empty($request->image)) {
             return redirect()->back()->with('error_message', 'Silahkan upload bukti pembayaran terlebih dahulu!');
+        }
+
+        if(empty($request->location_id)) {
+            return redirect()->back()->with('error_message', 'Silahkan pilih alamat pengiriman!');
+        }
+
+        $location = Location::where('id', $request->location_id)->first();
+        if(empty($location)) {
+            return redirect()->back()->with('error_message', 'alamat pengiriman tidak tersedia!');
+        }
+
+        $radius = RadiusCheckerService::getDistance((float) $location->latitude, (float) $location->longitude);
+
+        try {
+            $radius = (float) $radius;
+        } catch (\Exception $e) {
+            $radius = 1;
+        }
+
+        $radiusInKm = 0;
+        if(!empty($radius) && $radius > 0 ) {
+            $radiusInKm = $radius / 1000;
+        }
+
+        if($radiusInKm >  15) {
+            return redirect()->back()->with('error_message', 'Order Gagal! alamat pemesanan melebihi batas radius!');
         }
         
         $cart = Cart::where('user_id', $user->id)->first();
@@ -279,7 +310,7 @@ class CartController extends Controller
         $order->bukti_pembayaran = $imageFilePath;
         $order->total_price = $totalPrice;
         $order->status = 'Menunggu Konfirmasi';
-        $order->delivery_address = $request->delivery_address;
+        $order->delivery_address = $location->name;
         $order->save();
 
         foreach($cartItems as $item) 

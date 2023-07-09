@@ -25,6 +25,7 @@
 
     <!-- Customized Bootstrap Stylesheet -->
     <link href="{{ asset('web-asset/css/style.min.css') }}" rel="stylesheet">
+    <link rel='stylesheet' href="/selectize/selectize.css">
 
     {{-- @notifyCss --}}
 
@@ -109,6 +110,7 @@
 
     <!-- Template Javascript -->
     <script src="{{ asset('web-asset/js/main.js') }}"></script>
+    <script src="/selectize/selectize.min.js"></script>
 
     {{-- @notifyJs --}}
 
