@@ -34,9 +34,13 @@
             @endif
             <div class="row">
                 <div class="col-md-12">
-                    <div class="card card-primary">
+                    <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">View Order</h3>
+                            @if($order->status == 'Selesai Pengiriman') 
+                                <span style="font-size: 20px" class="badge badge-success">{{ $order->status }}</span> 
+                            @else
+                                <span style="font-size: 20px" class="badge badge-warning">{{ $order->status }}</span> 
+                            @endif
                         </div>
                         <form action="{{ route('admin.orders.update', [ $order->id ]) }}" method="POST">
                             @csrf
@@ -91,20 +95,45 @@
                                     </div>
                                 </div>
 
-                                <div class="form-group">
+                                @if ($order->status == 'Menunggu Konfirmasi' || $order->status == 'Proses Pengiriman')
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <label for="status">Status</label>
+                                            <select name="status" id="status" class="selectpicker" onchange="checkStatus()">
+                                                @if ($order->status == 'Menunggu Konfirmasi')
+                                                    <option value="Proses Pengiriman" @if($order->status == 'Proses Pengiriman') selected @endif>Proses Pengiriman</option>
+                                                @endif
+                                                @if ($order->status == 'Proses Pengiriman')
+                                                    <option value="Selesai Pengiriman" @if($order->status == 'Selesai Pengiriman') selected @endif>Selesai Pengiriman</option> 
+                                                @endif
+                                            </select>
+                                            @error('status')
+                                                <div class="invalid-feedback" style="display: block !important;">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                @endif
+
+                                <div class="form-group" id="orderImage" style="display: none">
                                     <div class="col-md-12">
-                                        <label for="status">Status</label>
-                                        <select name="status" id="status" class="selectpicker">
-                                            <option value="">Please Select</option>
-                                            <option value="Menunggu Konfirmasi" @if($order->status == 'Menunggu Konfirmasi') selected @endif>Menunggu Konfirmasi</option>
-                                            <option value="Konfirmasi" @if($order->status == 'Konfirmasi') selected @endif>Konfirmasi</option>
-                                        </select>
-                                        @error('status')
+                                        <label for="image">Bukti Selesai</label>
+                                        <input type="file" name="image" id="image" accept=".jpg,.jpeg,.png"
+                                            class="form-control @if ($errors->has('image')) is-invalid @endif"
+                                        >
+                                        @error('image')
                                             <div class="invalid-feedback" style="display: block !important;">{{ $message }}</div>
                                         @enderror
                                     </div>
+                                    <div style="padding-top: 10px">
+                                        @if (!empty($order->image_file_path))
+                                            <img src="{{ asset($order->image_file_path) }}" alt="" style="width:200px;height:200px">
+                                        @endif
+                                    </div>
                                 </div>
-                                <input type="submit" value="Update Order" class="btn btn-success float-right">
+
+                                @if ($order->status == 'Menunggu Konfirmasi' || $order->status == 'Proses Pengiriman')
+                                    <input type="submit" value="Update Status" class="btn btn-success float-right">
+                                @endif
                             </div>
                         </form>
                     </div>
@@ -121,6 +150,21 @@
 
 @section('scripts')
     <script type="text/javascript">
-    $("select").selectize();
+        $("select").selectize();
+
+        function checkStatus() {
+            let statusForm = document.getElementById("status");
+            let status = document.getElementById("status").value;
+            let orderImage = document.getElementById("orderImage");
+
+            if(status === 'Selesai Pengiriman') {
+                orderImage.style.display = "block";
+            }
+
+            const element = document.getElementById("comment-card");
+            element.scrollIntoView();
+        }
+
+        window.document.onload = checkStatus()
     </script>
 @endsection

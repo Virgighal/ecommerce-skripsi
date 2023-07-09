@@ -98,6 +98,7 @@
                                 <th>Name</th>
                                 <th>Code</th>
                                 <th>Type</th>
+                                <th>Stock</th>
                                 <th>Price</th>
                                 <th>Action</th>
                             </tr>
@@ -108,6 +109,7 @@
                                     <td>{{ $product->name }}</td>
                                     <td>{{ $product->code }}</td>
                                     <td>{{ $product->type }}</td>
+                                    <td>{{ $product->stock }}</td>
                                     <td>{{ number_format($product->price, 2) }}</td>
                                     <td style="white-space: nowrap;">
                                         <a class="btn btn-primary btn-sm" href="{{ route('admin.products.show', [$product->id]) }}">

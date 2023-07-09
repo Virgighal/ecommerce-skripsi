@@ -58,7 +58,31 @@ class OrderController extends Controller
             return redirect()->back()->with('error_message', 'Order is no longer exists!');
         }
 
+        if($request->status == 'Selesai Pengiriman') {
+            request()->validate([
+                'image' => 'required',
+            ],
+            [
+                'image.required' => 'Silahkan upload bukti jika pesanan sudah diselesaikan',
+            ]);
+        }
+
+        if($request->hasFile('image')) {
+            $oldImageFilePath = public_path($order->image_file_path);
+            unlink($oldImageFilePath);
+
+            $fileName = $request->file('image')->getClientOriginalName();
+            $filePath = public_path('order-image/'.$fileName);
+
+            file_put_contents($filePath, $request->file('image')->getContent());
+
+            $imageFilePath = 'order-image/'.$fileName;
+        }
+
         $order->status = $request->status;
+        if(!empty($imageFilePath)) {
+            $order->image_file_path = $imageFilePath;
+        }
         $order->save();
 
         return redirect()->route('admin.orders.show', [

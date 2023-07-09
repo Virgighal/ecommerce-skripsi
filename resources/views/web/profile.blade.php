@@ -204,11 +204,11 @@
                                                 Order Date: {{ $order->created_at }} <br>
                                                 Total Price: Rp. {{ number_format($order->total_price) }} <br>
                                                 Status: 
-                                                    @if($order->status == 'Konfirmasi') 
-                                                        <span class="badge badge-success">{{ $order->status }}</span> 
-                                                    @else
-                                                        <span class="badge badge-warning">{{ $order->status }}</span> 
-                                                    @endif
+                                                @if($order->status == 'Selesai Pengiriman') 
+                                                    <span style="font-size: 20px" class="badge badge-success">{{ $order->status }}</span> 
+                                                @else
+                                                    <span style="font-size: 20px" class="badge badge-warning">{{ $order->status }}</span> 
+                                                @endif
                                                 <table class="table">
                                                     <thead>
                                                         <tr>
@@ -231,23 +231,23 @@
                                                                     <td>N/A</td>
                                                                 @endif
                                                                 <td style="white-space: nowrap;">
-                                                                    @if(!empty($product->product) && $order->status == 'Konfirmasi')
-                                                                        <a class="btn btn-primary btn-sm" href="{{ route('ratings.index', 
+                                                                    <div style="display: flex;gap:10px">
+                                                                        @if(!empty($product->product) && $order->status == 'Selesai Pengiriman')
+                                                                            <a class="btn btn-primary btn-sm" href="{{ route('ratings.index', 
+                                                                                [
+                                                                                    'rateableType' => $product->product,
+                                                                                    'rateableId' => $product->product->id
+                                                                                ]) }}">
+                                                                                <i class="fas fa-star"></i> Beri Rating
+                                                                            </a>
+                                                                            <a class="btn btn-primary btn-sm" href="{{ route('comment', 
                                                                             [
-                                                                                'rateableType' => $product->product,
-                                                                                'rateableId' => $product->product->id
+                                                                                'order_id' => $order->id,
                                                                             ]) }}">
-                                                                            <i class="fas fa-star"></i> Beri Rating
-                                                                        </a>
-                                                                    @endif
-                                                                    <br>
-                                                                    <br>
-                                                                    <a class="btn btn-primary btn-sm" href="{{ route('comment', 
-                                                                    [
-                                                                        'order_id' => $order->id,
-                                                                    ]) }}">
-                                                                    <i class="fa fa-comment" aria-hidden="true"></i> Beri Komentar
-                                                                </a>
+                                                                                <i class="fa fa-comment" aria-hidden="true"></i> Beri Komentar
+                                                                            </a>
+                                                                        @endif
+                                                                    </div>
                                                                 <td>
                                                             </tr>
                                                         @endforeach

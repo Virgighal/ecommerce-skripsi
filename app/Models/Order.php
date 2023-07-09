@@ -23,6 +23,7 @@ class Order extends Model
         'bukti_pembayaran',
         'total_price',
         'status',
-        'delivery_address'
+        'delivery_address',
+        'image_file_path',
     ];
 }

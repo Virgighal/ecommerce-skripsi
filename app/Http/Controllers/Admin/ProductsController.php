@@ -74,8 +74,9 @@ class ProductsController extends Controller
             'code' => 'required',
             'type' => 'required',
             'price' => 'required',
-            'image' => 'required'
-        ];
+            'image' => 'required',
+            'stock' => 'required'
+         ];
 
         $this->validate($request, $validationRules);
 
@@ -95,6 +96,7 @@ class ProductsController extends Controller
         $product->code = $request->code;
         $product->type = $request->type;
         $product->price = $request->price;
+        $product->stock = $request->stock;
         $product->image_file_path = $imageFilePath;
         $product->save();
 
@@ -158,7 +160,8 @@ class ProductsController extends Controller
             'name' => 'required',
             'code' => 'required',
             'type' => 'required',
-            'price' => 'required'
+            'price' => 'required',
+            'stock' => 'required'
         ];
 
         $this->validate($request, $validationRules);
@@ -181,6 +184,7 @@ class ProductsController extends Controller
         $product->type = $request->type;
         $product->price = $request->price;
         $product->image_file_path = $imageFilePath;
+        $product->stock = $request->stock;
         $product->save();
 
         return redirect()->route('admin.products.show', [

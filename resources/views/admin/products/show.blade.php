@@ -89,6 +89,17 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="col-md-12">
+                                        <label for="stock">Stock</label>
+                                        <input type="number" name="stock" id="stock"
+                                            class="form-control @if ($errors->has('stock')) is-invalid @endif"
+                                            value="{{ $product->stock }}">
+                                        @error('stock')
+                                            <div class="invalid-feedback" style="display: block !important;">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-12">
                                         <label for="image">Product Image</label>
                                         <input type="file" name="image" id="image" accept=".jpg,.jpeg,.png"
                                             class="form-control @if ($errors->has('image')) is-invalid @endif"

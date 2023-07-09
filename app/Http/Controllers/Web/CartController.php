@@ -242,6 +242,7 @@ class CartController extends Controller
         }
         
         $cart = Cart::where('user_id', $user->id)->first();
+
         $cartItems = CartItem::where('cart_id', $cart->id)->where('checkout', 0)->get();
 
         $totalPrice = 0;
@@ -259,6 +260,17 @@ class CartController extends Controller
             file_put_contents($filePath, $request->file('image')->getContent());
 
             $imageFilePath = 'image/'.$fileName;
+        }
+
+        foreach($cartItems as $item) {
+            $product = Product::where('id', $item->product_id)->first();
+            if(empty($product)) {
+                return redirect()->back()->with('error_message', 'Product tidak dapat ditemukan');
+            }
+
+            if($item->quantity > $product->stock) {
+                return redirect()->back()->with('error_message', 'Jumlah yang di order melebihi total stock!');
+            }
         }
 
         $order = new Order;
@@ -282,6 +294,11 @@ class CartController extends Controller
             $cartItem = CartItem::where('id', $item->id)->first();
             $cartItem->checkout = 1;
             $cartItem->save();
+
+            $product = Product::where('id', $orderItem->product_id)->first();
+            $product->update([
+                'stock' => $product->stock - $orderItem->quantity
+            ]);
         }
 
         return redirect()->route('menu')->with('success_message', 'berhasil melakukan pemesanan!');
