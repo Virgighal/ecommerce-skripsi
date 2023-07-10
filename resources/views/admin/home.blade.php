@@ -31,7 +31,7 @@
                             <h3>
                                 {{ \App\Models\Order::where('status', 'Selesai Pengiriman')->count() }}
                             </h3>
-                            <p>Total Transaction</p>
+                            <p>Total Transaksi</p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-stats-bars"></i>
@@ -45,7 +45,7 @@
                             <h3>
                                 Rp. {{ number_format(\App\Models\Order::where('status', 'Selesai Pengiriman')->sum('total_price')) }}
                             </h3>
-                            <p>Total Sales</p>
+                            <p>Total Penjualan</p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-stats-bars"></i>
