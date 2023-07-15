@@ -55,6 +55,11 @@
         <div class="container">
             <div class="row">
                 <div class="cart_section">
+                    @if(Session::has('error_message'))
+                        <div class="alert alert-danger" role="alert">
+                            {{ Session::get('error_message') }}
+                        </div>
+                    @endif
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-md-12">

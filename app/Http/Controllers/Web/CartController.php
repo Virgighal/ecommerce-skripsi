@@ -218,6 +218,17 @@ class CartController extends Controller
             return redirect()->route('cart');
         }
 
+        foreach($cartItems as $item) {
+            $product = Product::where('id', $item->product_id)->first();
+            if(empty($product)) {
+                return redirect()->back()->with('error_message', 'Product tidak dapat ditemukan');
+            }
+
+            if($item->quantity > $product->stock) {
+                return redirect()->back()->with('error_message', 'Jumlah yang di order melebihi total stock yang tersedia!');
+            }
+        }
+
         $totalPrice = 0;
         foreach($cartItems as $item) 
         {
@@ -268,7 +279,7 @@ class CartController extends Controller
             $radiusInKm = $radius / 1000;
         }
 
-        if($radiusInKm >  15) {
+        if($radiusInKm > 15) {
             return redirect()->back()->with('error_message', 'Order Gagal! alamat pemesanan melebihi batas radius!');
         }
         
@@ -291,17 +302,6 @@ class CartController extends Controller
             file_put_contents($filePath, $request->file('image')->getContent());
 
             $imageFilePath = 'image/'.$fileName;
-        }
-
-        foreach($cartItems as $item) {
-            $product = Product::where('id', $item->product_id)->first();
-            if(empty($product)) {
-                return redirect()->back()->with('error_message', 'Product tidak dapat ditemukan');
-            }
-
-            if($item->quantity > $product->stock) {
-                return redirect()->back()->with('error_message', 'Jumlah yang di order melebihi total stock!');
-            }
         }
 
         $order = new Order;
