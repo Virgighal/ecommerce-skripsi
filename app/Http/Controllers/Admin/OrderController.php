@@ -7,6 +7,7 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\Rating;
 
 class OrderController extends Controller
 {
@@ -40,6 +41,23 @@ class OrderController extends Controller
         if(empty($order)) {
             return redirect()->back()->with('error_message', 'Order is no longer exists!');
         }
+
+        $orderItems = OrderItem::where('order_id', $order->id)->get();
+
+        foreach($orderItems as $orderItem) {
+            $product = Product::where('id', $orderItem->product_id)->first();
+            $rating = Rating::where('rateable_id', $orderItem->product_id)->first();
+
+            $ratingStar = 0;
+            if(!empty($rating)) {
+                $ratingStar = $rating->rating;
+            }
+            
+            $orderItem->product = $product;
+            $orderItem->rating_star = $ratingStar;
+        }
+        
+        $order->items = $orderItems;
 
         return view('admin.orders.show', [
             'order' => $order
@@ -88,6 +106,46 @@ class OrderController extends Controller
         return redirect()->route('admin.orders.show', [
             'id' => $order->id
         ])->with('success_message', 'Successfully updated order');
+    }
+
+    /**
+     * print struk
+     *
+     * @param [type] $id
+     * @return void
+     */
+    public function print($id)
+    {
+        if(auth()->user()->user_level != 'Admin') {
+            return redirect()->route('home');
+        }
+
+        $order = Order::where('id', $id)->first();
+        
+        if(empty($order)) {
+            return redirect()->back()->with('error_message', 'Order is no longer exists!');
+        }
+
+        $orderItems = OrderItem::where('order_id', $order->id)->get();
+
+        foreach($orderItems as $orderItem) {
+            $product = Product::where('id', $orderItem->product_id)->first();
+            $rating = Rating::where('rateable_id', $orderItem->product_id)->first();
+
+            $ratingStar = 0;
+            if(!empty($rating)) {
+                $ratingStar = $rating->rating;
+            }
+            
+            $orderItem->product = $product;
+            $orderItem->rating_star = $ratingStar;
+        }
+        
+        $order->items = $orderItems;
+
+        return view('admin.orders.print', [
+            'order' => $order
+        ]);
     }
 
 }

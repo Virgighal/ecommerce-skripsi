@@ -25,5 +25,8 @@ class Order extends Model
         'status',
         'delivery_address',
         'image_file_path',
+        'transaction_number',
+        'payment_method',
+        'delivery_fee'
     ];
 }

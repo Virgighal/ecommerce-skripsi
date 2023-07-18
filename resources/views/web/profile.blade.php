@@ -193,18 +193,16 @@
                                     </form>
                                 </div>
                                 <div class="tab-pane fade" id="order-history" role="tabpanel" aria-labelledby="order-history-tab">
-                                    @php
-                                        $number = 1;
-                                    @endphp
                                     @foreach ($orders as $order)
                                         <div class="card mb-4">
                                             <div class="card-body">
-                                                <b>{{ $number++ }} </b>
+                                                <b style="font-size: 20px">#{{ $order->transaction_number }} </b>
                                                 <br>
                                                 Order Date: {{ $order->created_at }} <br>
+                                                Method: {{ $order->payment_method }} <br>
                                                 Total Price: Rp. {{ number_format($order->total_price) }} <br>
                                                 Status: 
-                                                @if($order->status == 'Selesai Pengiriman') 
+                                                @if($order->status == 'Selesai Pengiriman' || $order->status == 'Pesanan Selesai') 
                                                     <span style="font-size: 20px" class="badge badge-success">{{ $order->status }}</span> 
                                                 @else
                                                     <span style="font-size: 20px" class="badge badge-warning">{{ $order->status }}</span> 
@@ -232,7 +230,7 @@
                                                                 @endif
                                                                 <td style="white-space: nowrap;">
                                                                     <div style="display: flex;gap:10px">
-                                                                        @if(!empty($product->product) && $order->status == 'Selesai Pengiriman')
+                                                                        @if(!empty($product->product) && ($order->status == 'Selesai Pengiriman' || $order->status == 'Pesanan Selesai'))
                                                                             <a class="btn btn-primary btn-sm" href="{{ route('ratings.index', 
                                                                                 [
                                                                                     'rateableType' => $product->product,

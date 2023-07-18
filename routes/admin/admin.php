@@ -32,6 +32,7 @@ Route::middleware('auth')->group(function() {
     Route::prefix('orders')->name('orders.')->group(function() {
         Route::get('/', [OrderController::class, 'index'])->name('index');
         Route::get('/{id}', [OrderController::class, 'show'])->name('show');
+        Route::get('/print/{id}', [OrderController::class, 'print'])->name('print');
         Route::post('update/{id}', [OrderController::class, 'update'])->name('update');
     });
 

@@ -11,6 +11,7 @@ use App\Models\Location;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Services\RadiusCheckerService;
+use Carbon\Carbon;
 
 class CartController extends Controller
 {
@@ -253,34 +254,42 @@ class CartController extends Controller
             return redirect()->route('admin.home');
         }
 
-        if(empty($request->image)) {
-            return redirect()->back()->with('error_message', 'Silahkan upload bukti pembayaran terlebih dahulu!');
-        }
+        $deliveryFee = 0;
 
-        if(empty($request->location_id)) {
-            return redirect()->back()->with('error_message', 'Silahkan pilih alamat pengiriman!');
-        }
+        if($request->payment_method == 'COD' || $request->payment_method == 'Dikirim') {
+            if(empty($request->image)) {
+                return redirect()->back()->with('error_message', 'Silahkan upload bukti pembayaran');
+            }
 
-        $location = Location::where('id', $request->location_id)->first();
-        if(empty($location)) {
-            return redirect()->back()->with('error_message', 'alamat pengiriman tidak tersedia!');
-        }
+            if(empty($request->location_id)) {
+                return redirect()->back()->with('error_message', 'Silahkan pilih alamat pengiriman!');
+            }
 
-        $radius = RadiusCheckerService::getDistance((float) $location->latitude, (float) $location->longitude);
+            $location = Location::where('id', $request->location_id)->first();
+            if(empty($location)) {
+                return redirect()->back()->with('error_message', 'alamat pengiriman tidak tersedia!');
+            }
 
-        try {
-            $radius = (float) $radius;
-        } catch (\Exception $e) {
-            $radius = 1;
-        }
+            if($request->payment_method == 'Dikirim') {
+                $radius = RadiusCheckerService::getDistance((float) $location->latitude, (float) $location->longitude);
 
-        $radiusInKm = 0;
-        if(!empty($radius) && $radius > 0 ) {
-            $radiusInKm = $radius / 1000;
-        }
-
-        if($radiusInKm > 15) {
-            return redirect()->back()->with('error_message', 'Order Gagal! alamat pemesanan melebihi batas radius!');
+                try {
+                    $radius = (float) $radius;
+                } catch (\Exception $e) {
+                    $radius = 1;
+                }
+        
+                $radiusInKm = 0;
+                if(!empty($radius) && $radius > 0 ) {
+                    $radiusInKm = $radius / 1000;
+                }
+        
+                if($radiusInKm > 5) {
+                    $deliveryFee = 5000;
+                } else if($radiusInKm > 10) {
+                    $deliveryFee = 10000;
+                }
+            }
         }
         
         $cart = Cart::where('user_id', $user->id)->first();
@@ -309,8 +318,11 @@ class CartController extends Controller
         $order->user_name = $user->name;
         $order->bukti_pembayaran = $imageFilePath;
         $order->total_price = $totalPrice;
-        $order->status = 'Menunggu Konfirmasi';
-        $order->delivery_address = $location->name;
+        $order->status = ($request->payment_method == 'Langsung') ? 'Pesanan Selesai' : 'Menunggu Konfirmasi';
+        $order->delivery_address = $location->name ?? NULL;
+        $order->transaction_number = Carbon::now()->format('YmdHis') . rand (0, 99);
+        $order->payment_method = $request->payment_method;
+        $order->delivery_fee = $deliveryFee;
         $order->save();
 
         foreach($cartItems as $item) 

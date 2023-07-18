@@ -255,29 +255,34 @@
                                 <input type="text" placeholder="Rp. {{ number_format($total_price) }}" value="{{ $total_price }}"  disabled>
                             </div>
                         </div>
-
-                        {{-- <span id="card-header">Transfer to:</span> --}}
-                        {{-- <div class="row row-1">
-                            <div class="col-2"><img class="img-fluid" src="https://img.icons8.com/color/48/000000/mastercard-logo.png"/></div>
-                            <div class="col-7">
-                                <input type="text" placeholder="12837 81729 (BCA)">
-                            </div>
-                        </div> --}}
-                        <span id="card-header">Upload Bukti Pembayaran:</span>
-                        <div class="row-1">
-                            <div class="row row-2">
-                                <input type="file" name="image" id="image" accept=".jpg,.jpeg,.png">
-                            </div>
-                        </div>
-                        <span id="card-header">Alamat Pengiriman:</span>
+                        <span id="card-header">Metode Pemesanan:</span>
                         <div class="row-1" style="height:100px">
                             <div style="height:100px">
-                               <select name="location_id" id="locationId">
+                               <select name="payment_method" id="paymentMethod" class="form-control" onchange="showOnlineMethod()">
                                     <option value="">Please Select</option>
-                                    @foreach ($locations as $location)
-                                        <option value="{{ $location->id }}">{{ $location->name }}</option>
-                                    @endforeach
+                                    <option value="COD" @if(old('payment_method') == 'COD') selected @endif>COD</option>
+                                    <option value="Dikirim" @if(old('payment_method') == 'Dikirim') selected @endif>Dikirim</option>
+                                    <option value="Langsung" @if(old('payment_method') == 'Langsung') selected @endif>Langsung</option>
                                </select>
+                            </div>
+                        </div>
+                        <div id="onlineMethod" style="display: none">
+                            <span id="card-header">Upload Bukti Pembayaran:</span>
+                            <div class="row-1">
+                                <div class="row row-2">
+                                    <input type="file" name="image" id="image" accept=".jpg,.jpeg,.png">
+                                </div>
+                            </div>
+                            <span id="card-header">Alamat Pengiriman:</span>
+                            <div class="row-1" style="height:100px">
+                                <div style="height:100px">
+                                   <select name="location_id" id="locationId">
+                                        <option value="">Please Select</option>
+                                        @foreach ($locations as $location)
+                                            <option value="{{ $location->id }}">{{ $location->name }}</option>
+                                        @endforeach
+                                   </select>
+                                </div>
                             </div>
                         </div>
                         <button class="btn d-flex mx-auto"><b>Checkout</b></button>
@@ -294,6 +299,18 @@
     <script type="text/javascript">
         const element = document.getElementById("checkout");
         element.scrollIntoView();
+
+        function showOnlineMethod() {
+            let paymentMethod = document.getElementById("paymentMethod");
+            let onlineMethod = document.getElementById("onlineMethod");
+            let paymentMethodVal = paymentMethod.value;
+            console.log(paymentMethodVal);
+            if(paymentMethodVal == 'COD' || paymentMethodVal == 'Dikirim') {
+                onlineMethod.style.display = "block";
+            } else {
+                onlineMethod.style.display = "none";
+            }
+        }
 
         $("#locationId").selectize();
     </script>
