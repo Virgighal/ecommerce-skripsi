@@ -201,6 +201,7 @@
                                                 Order Date: {{ $order->created_at }} <br>
                                                 Method: {{ $order->payment_method }} <br>
                                                 Total Price: Rp. {{ number_format($order->total_price) }} <br>
+                                                Delivery Fee: Rp. {{ number_format($order->delivery_fee) }} <br>
                                                 Status: 
                                                 @if($order->status == 'Selesai Pengiriman' || $order->status == 'Pesanan Selesai') 
                                                     <span style="font-size: 20px" class="badge badge-success">{{ $order->status }}</span> 
