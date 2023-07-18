@@ -283,10 +283,16 @@ class CartController extends Controller
                 if(!empty($radius) && $radius > 0 ) {
                     $radiusInKm = $radius / 1000;
                 }
+
+                if($radiusInKm > 15) {
+                    return redirect()->back()->with('error_message', 'Pesanan tidak boleh melebihin 15 km!');
+                }
         
                 if($radiusInKm > 5) {
                     $deliveryFee = 5000;
-                } else if($radiusInKm > 10) {
+                } 
+                
+                if($radiusInKm > 10) {
                     $deliveryFee = 10000;
                 }
             }
