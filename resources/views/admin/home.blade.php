@@ -78,6 +78,8 @@
                         <tr>
                             <th>User Name</th>
                             <th>Complain</th>
+                            <th>Order Number</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -85,6 +87,7 @@
                             <tr>
                                 <td>{{ $comment->username }}</td>
                                 <td>{{ $comment->text }}</td>
+                                <td>{{ $comment->order_number }}</td>
                                 <td>
                                     @if(auth()->user()->id != $comment->user_id)
                                         <a class="btn btn-primary btn-sm" href="{{ route('admin.comments.show', [$comment->order_id]) }}">
