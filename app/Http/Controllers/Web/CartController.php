@@ -261,40 +261,12 @@ class CartController extends Controller
                 return redirect()->back()->with('error_message', 'Silahkan upload bukti pembayaran');
             }
 
-            if(empty($request->location_id)) {
-                return redirect()->back()->with('error_message', 'Silahkan pilih alamat pengiriman!');
+            if(empty($request->address)) {
+                return redirect()->back()->with('error_message', 'Silahkan isi alamat pengiriman');
             }
 
-            $location = Location::where('id', $request->location_id)->first();
-            if(empty($location)) {
-                return redirect()->back()->with('error_message', 'alamat pengiriman tidak tersedia!');
-            }
-
-            if($request->payment_method == 'Dikirim') {
-                $radius = RadiusCheckerService::getDistance((float) $location->latitude, (float) $location->longitude);
-
-                try {
-                    $radius = (float) $radius;
-                } catch (\Exception $e) {
-                    $radius = 1;
-                }
-        
-                $radiusInKm = 0;
-                if(!empty($radius) && $radius > 0 ) {
-                    $radiusInKm = $radius / 1000;
-                }
-
-                if($radiusInKm > 15) {
-                    return redirect()->back()->with('error_message', 'Pesanan tidak boleh melebihin 15 km!');
-                }
-        
-                if($radiusInKm > 5) {
-                    $deliveryFee = 5000;
-                } 
-                
-                if($radiusInKm > 10) {
-                    $deliveryFee = 10000;
-                }
+            if(!empty($request->delivery_fee)) {
+                $deliveryFee = $request->delivery_fee;
             }
         }
         
@@ -325,7 +297,7 @@ class CartController extends Controller
         $order->bukti_pembayaran = $imageFilePath;
         $order->total_price = $totalPrice;
         $order->status = ($request->payment_method == 'Langsung') ? 'Pesanan Selesai' : 'Menunggu Konfirmasi';
-        $order->delivery_address = $location->name ?? NULL;
+        $order->delivery_address = $request->address;
         $order->transaction_number = Carbon::now()->format('YmdHis') . rand (0, 99);
         $order->payment_method = $request->payment_method;
         $order->delivery_fee = $deliveryFee;
