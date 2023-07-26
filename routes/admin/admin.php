@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\RatingsController;
+use App\Http\Controllers\Admin\ReportController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->group(function() {
@@ -37,6 +38,11 @@ Route::middleware('auth')->group(function() {
 
     Route::prefix('ratings')->name('ratings.')->group(function() {
         Route::get('/', [RatingsController::class, 'index'])->name('index');
+    });
+
+    Route::prefix('report')->name('report.')->group(function() {
+        Route::get('/', [ReportController::class, 'index'])->name('index');
+        Route::get('/report', [ReportController::class, 'report'])->name('report');
     });
 
     Route::prefix('orders')->name('orders.')->group(function() {
