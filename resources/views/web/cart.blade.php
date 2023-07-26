@@ -295,6 +295,7 @@
                     success: function(response) {
                         // Handle the success response
                         console.log('Cart item updated successfully:', response);
+                        window.location.reload()
                     },
                     error: function(error) {
                         // Handle the error response
