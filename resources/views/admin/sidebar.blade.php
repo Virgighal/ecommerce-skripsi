@@ -57,7 +57,7 @@
                         @endif
                     ">
                         <i class="nav-icon fas fa-box"></i>
-                        <p>menu</p>
+                        <p>Menu</p>
                     </a>
                 </li>
 
