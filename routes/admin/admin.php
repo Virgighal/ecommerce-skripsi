@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\CommentsController;
 use App\Http\Controllers\Admin\HomeController;
+use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\OrderController;
@@ -27,6 +28,10 @@ Route::middleware('auth')->group(function() {
         Route::post('store', [ProductsController::class, 'store'])->name('store');
         Route::post('update/{id}', [ProductsController::class, 'update'])->name('update');
         Route::delete('destroy', [ProductsController::class, 'destroy'])->name('destroy');
+    });
+
+    Route::prefix('menu')->name('menu.')->group(function() {
+        Route::get('/', [MenuController::class, 'index'])->name('index');
     });
 
     Route::prefix('orders')->name('orders.')->group(function() {

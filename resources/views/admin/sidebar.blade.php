@@ -51,6 +51,17 @@
                 </li>
 
                 <li class="nav-item">
+                    <a href="{{ route('admin.menu.index') }}" class="nav-link 
+                        @if(strpos(\URL::current(), "menu") !== false)
+                        active
+                        @endif
+                    ">
+                        <i class="nav-icon fas fa-box"></i>
+                        <p>menu</p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
                     <a href="{{ route('admin.orders.index') }}" class="nav-link 
                         @if(strpos(\URL::current(), "transaction_management") !== false)
                         active
