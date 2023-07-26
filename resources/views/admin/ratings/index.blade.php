@@ -79,10 +79,14 @@
                         <tbody>
                             @foreach ($ratings as $rating)
                                 <tr>
-                                    <td>{{ $rating->user->name }}</td>
-                                    <td>{{ $rating->user->email }}</td>
-                                    <td>{{ $rating->product->name }}</td>
-                                    <td><img src="{{ url($rating->product->image_file_path) }}" alt="" style="width: 50px;height:50px"></td>
+                                    <td>{{!empty($rating->user) ? $rating->user->name : 'N/A' }}</td>
+                                    <td>{{!empty($rating->user) ? $rating->user->email : 'N/A' }}</td>
+                                    <td>{{ !empty($rating->product) ? $rating->product->name : 'N/A' }}</td>
+                                    @if(!empty($rating->product))
+                                        <td><img src="{{ url($rating->product->image_file_path) }}" alt="" style="width: 50px;height:50px"></td>
+                                    @else
+                                        <td>N/A</td>
+                                    @endif
                                     <td>
                                         <style>
                                             .checked {
