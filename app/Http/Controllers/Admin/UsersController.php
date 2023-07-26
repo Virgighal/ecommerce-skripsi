@@ -21,7 +21,7 @@ class UsersController extends Controller
             return redirect()->route('home');
         }
 
-        $users = User::where('user_level', 'Customer')->orderBy('name', 'ASC');
+        $users = User::where('user_level', 'User')->orderBy('name', 'ASC');
 
         if(!empty($request->name)) {
             $users = $users->where('name', 'LIKE', '%'.$request->name.'%');
@@ -76,7 +76,7 @@ class UsersController extends Controller
         $user->phone_number = $request->phone_number;
         $user->address = $request->address;
         $user->password = Hash::make($request->password);
-        $user->user_level = 'Customer';
+        $user->user_level = 'User';
         $user->save();
 
         return redirect()->route('admin.users.index')->with('success_message', 'Successfully created new user');
@@ -94,7 +94,7 @@ class UsersController extends Controller
             return redirect()->route('home');
         }
 
-        $user = User::where('user_level', 'Customer')
+        $user = User::where('user_level', 'User')
             ->where('id', $id)
             ->first();
         
@@ -131,7 +131,7 @@ class UsersController extends Controller
             return redirect()->route('home');
         }
 
-        $user = User::where('user_level', 'Customer')
+        $user = User::where('user_level', 'User')
             ->where('id', $id)
             ->first();
         
@@ -174,7 +174,7 @@ class UsersController extends Controller
             return redirect()->route('home');
         }
 
-        $user = User::where('user_level', 'Customer')
+        $user = User::where('user_level', 'User')
             ->where('id', $request->id)
             ->first();
         

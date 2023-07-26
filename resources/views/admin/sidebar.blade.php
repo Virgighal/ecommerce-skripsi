@@ -62,6 +62,17 @@
                 </li>
 
                 <li class="nav-item">
+                    <a href="{{ route('admin.ratings.index') }}" class="nav-link 
+                        @if(strpos(\URL::current(), "ratings") !== false)
+                        active
+                        @endif
+                    ">
+                        <i class="nav-icon fas fa-star"></i>
+                        <p>Ratings</p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
                     <a href="{{ route('admin.orders.index') }}" class="nav-link 
                         @if(strpos(\URL::current(), "transaction_management") !== false)
                         active

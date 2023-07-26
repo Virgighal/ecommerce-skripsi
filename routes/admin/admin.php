@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Admin\RatingsController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->group(function() {
@@ -32,6 +33,10 @@ Route::middleware('auth')->group(function() {
 
     Route::prefix('menu')->name('menu.')->group(function() {
         Route::get('/', [MenuController::class, 'index'])->name('index');
+    });
+
+    Route::prefix('ratings')->name('ratings.')->group(function() {
+        Route::get('/', [RatingsController::class, 'index'])->name('index');
     });
 
     Route::prefix('orders')->name('orders.')->group(function() {
