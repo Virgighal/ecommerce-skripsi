@@ -205,6 +205,30 @@ class CartController extends Controller
         return redirect()->back();
     }
     
+    public function updateCartItem(Request $request)
+    {
+        $user = auth()->user();
+        if(!empty($user) && $user->user_level != 'User') {
+            return redirect()->route('admin.home');
+        }
+
+        $quantity = $request->quantity;
+        $price = $request->price;
+        $total = $request->total;
+        $cartItemId = $request->cart_item_id;
+
+        $cartItem = CartItem::where('id', $cartItemId)->first();
+        if(!empty($cartItem)) {
+            $cartItem->quantity = $quantity;
+            $cartItem->price = $total;
+            $cartItem->save();
+        }
+
+        return response()->json([
+            'error' => false,
+            'success_message' =>'successfully updated cart item.'
+        ]);
+    }
 
     public function checkout(Request $request)
     {

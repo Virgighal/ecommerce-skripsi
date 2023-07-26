@@ -80,32 +80,39 @@
                                                         <div class="cart_item_quantity cart_info_col" style="width: 25%">
                                                             <div class="cart_item_title">Jumlah</div>
                                                             <div style="display: flex;gap:10px">
-                                                                <div class="cart_item_text mt-10">
+                                                                {{-- <div class="cart_item_text mt-10">
                                                                     <form action="{{ route('deduct') }}" method="POST" class="deduct-form">
                                                                         @csrf
                                                                         <input type="hidden" name="product_id" value="{{ $item->product->id }}">
                                                                         <i onclick="confirmDeduct(event)" class="fa fa-minus-circle" style="color: red"></i>
                                                                     </form>
+                                                                </div> --}}
+
+                                                                <input type="hidden" name="cart_item_id" class="cartItemId" value="{{ $item->id }}">
+                                                                <div class="cart_item_text">
+                                                                    <input type="number" class="form-control quantity" value="{{ $item->quantity }}">
                                                                 </div>
 
-                                                                <div class="cart_item_text">{{ $item->quantity }}</div>
-
-                                                                <div class="cart_item_text">
+                                                                {{-- <div class="cart_item_text">
                                                                     <form action="{{ route('add-to-cart') }}" method="POST" class="add-form">
                                                                         @csrf
                                                                         <input type="hidden" name="product_id" value="{{ $item->product->id }}">
                                                                         <i onclick="confirmAdd(event)" class="fa fa-plus-circle" style="color: green"></i>
                                                                     </form>
-                                                                </div>
+                                                                </div> --}}
                                                             </div>
                                                         </div>
                                                         <div class="cart_item_price cart_info_col" style="width: 25%">
                                                             <div class="cart_item_title">Harga</div>
-                                                            <div class="cart_item_text">Rp {{ number_format($item->product->price) }}</div>
+                                                            <div class="cart_item_text">
+                                                                <input type="number" class="form-control price" value="{{ $item->product->price }}" disabled>
+                                                            </div>
                                                         </div>
                                                         <div class="cart_item_total cart_info_col" style="width: 25%">
                                                             <div class="cart_item_title">Total</div>
-                                                            <div class="cart_item_text">Rp {{ number_format($item->price) }}</div>
+                                                            <div class="cart_item_text">
+                                                                <input type="number" class="form-control total" value="{{ $item->price }}" disabled>
+                                                            </div>
                                                         </div>
                                                         <div class="cart_item_name cart_info_col" style="width: 20%">
                                                             <div class="cart_item_title">Option</div>
@@ -244,5 +251,57 @@
                 event.target.parentNode.submit();
             }
         }
+
+        $(document).ready(function() {
+            // Event delegation to handle quantity changes for all items
+            $(document).on('input', '.quantity', function() {
+                let quantity = $(this).val();
+                if (quantity < 0 || quantity == undefined || quantity == null) {
+                    $(this).val(0);
+                    quantity = 0;
+                }
+
+                const $cartItem = $(this).closest('.cart_item');
+                const price = parseFloat($cartItem.find('.price').val());
+
+                let total = quantity * price;
+                if (isNaN(total)) {
+                    total = 0;
+                }
+
+                $cartItem.find('.total').val(total);
+
+                if (total == 0) {
+                    return;
+                }
+
+                // Make AJAX call to update cart on the server-side
+                const cartItemId = $cartItem.find('.cartItemId').val();
+                updateCartItem(cartItemId, quantity, price, total);
+            });
+
+            // Function to update cart item on the server-side using AJAX
+            function updateCartItem(cartItemId, quantity, price, total) {
+                $.ajax({
+                    url: '/update-cart-item', // Replace with your server-side route
+                    type: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        cart_item_id: cartItemId,
+                        quantity: quantity,
+                        price: price,
+                        total: total
+                    },
+                    success: function(response) {
+                        // Handle the success response
+                        console.log('Cart item updated successfully:', response);
+                    },
+                    error: function(error) {
+                        // Handle the error response
+                        console.error('Error updating cart item:', error);
+                    }
+                });
+            }
+        });
     </script>
 @endsection

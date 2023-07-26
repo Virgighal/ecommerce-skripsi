@@ -111,6 +111,7 @@
     <!-- Template Javascript -->
     <script src="{{ asset('web-asset/js/main.js') }}"></script>
     <script src="/selectize/selectize.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
 
     {{-- @notifyJs --}}
 
