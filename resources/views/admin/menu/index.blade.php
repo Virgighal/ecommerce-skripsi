@@ -92,6 +92,7 @@
                         <img class="card-img-top" src="{{ url($product->image_file_path) }}" style="height: 200px">
                         <div class="card-body">
                             <p class="card-text">{{ $product->name }}</p>
+                            <p class="card-text">{{ $product->code }}</p>
                             <p class="card-text" style="font-size: 20px"><b>Rp. {{ number_format($product->price, 2) }}</b></p>
                             @php
                                 for($i = 1; $i <= $product->rating_star; $i++) {
