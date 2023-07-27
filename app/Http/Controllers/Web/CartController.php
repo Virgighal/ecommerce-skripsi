@@ -8,10 +8,12 @@ use App\Models\Product;
 use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\Location;
+use App\Models\Notification;
 use App\Models\Order;
 use App\Models\OrderItem;
-use App\Services\RadiusCheckerService;
+use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class CartController extends Controller
 {
@@ -293,58 +295,76 @@ class CartController extends Controller
                 $deliveryFee = $request->delivery_fee;
             }
         }
-        
-        $cart = Cart::where('user_id', $user->id)->first();
 
-        $cartItems = CartItem::where('cart_id', $cart->id)->where('checkout', 0)->get();
+        DB::transaction(function() use($request, $user, $deliveryFee) {
+            $cart = Cart::where('user_id', $user->id)->first();
 
-        $totalPrice = 0;
-        foreach($cartItems as $item) 
-        {
-            $totalPrice += $item->price;
-        }
+            $cartItems = CartItem::where('cart_id', $cart->id)->where('checkout', 0)->get();
 
-        $imageFilePath = '';
-        $fileName = '';
-        if($request->hasFile('image')) {
-            $fileName = $request->file('image')->getClientOriginalName();
-            $filePath = public_path('image/'.$fileName);
+            $totalPrice = 0;
+            foreach($cartItems as $item) 
+            {
+                $totalPrice += $item->price;
+            }
 
-            file_put_contents($filePath, $request->file('image')->getContent());
+            $imageFilePath = '';
+            $fileName = '';
+            if($request->hasFile('image')) {
+                $fileName = $request->file('image')->getClientOriginalName();
+                $filePath = public_path('image/'.$fileName);
 
-            $imageFilePath = 'image/'.$fileName;
-        }
+                file_put_contents($filePath, $request->file('image')->getContent());
 
-        $order = new Order;
-        $order->user_id = $cart->user_id;
-        $order->user_name = $user->name;
-        $order->bukti_pembayaran = $imageFilePath;
-        $order->total_price = $totalPrice;
-        $order->status = ($request->payment_method == 'Langsung') ? 'Pesanan Selesai' : 'Menunggu Konfirmasi';
-        $order->delivery_address = $request->address;
-        $order->transaction_number = Carbon::now()->format('YmdHis') . rand (0, 99);
-        $order->payment_method = $request->payment_method;
-        $order->delivery_fee = $deliveryFee;
-        $order->save();
+                $imageFilePath = 'image/'.$fileName;
+            }
 
-        foreach($cartItems as $item) 
-        {
-            $orderItem = new OrderItem;
-            $orderItem->order_id = $order->id;
-            $orderItem->product_id = $item->product_id;
-            $orderItem->quantity = $item->quantity;
-            $orderItem->price = $item->price;
-            $orderItem->save();
+            $order = new Order;
+            $order->user_id = $cart->user_id;
+            $order->user_name = $user->name;
+            $order->bukti_pembayaran = $imageFilePath;
+            $order->total_price = $totalPrice;
+            $order->status = ($request->payment_method == 'Langsung') ? 'Pesanan Selesai' : 'Menunggu Konfirmasi';
+            $order->delivery_address = $request->address;
+            $order->transaction_number = Carbon::now()->format('YmdHis') . rand (0, 99);
+            $order->payment_method = $request->payment_method;
+            $order->delivery_fee = $deliveryFee;
+            $order->save();
 
-            $cartItem = CartItem::where('id', $item->id)->first();
-            $cartItem->checkout = 1;
-            $cartItem->save();
+            foreach($cartItems as $item) 
+            {
+                $orderItem = new OrderItem;
+                $orderItem->order_id = $order->id;
+                $orderItem->product_id = $item->product_id;
+                $orderItem->quantity = $item->quantity;
+                $orderItem->price = $item->price;
+                $orderItem->save();
 
-            $product = Product::where('id', $orderItem->product_id)->first();
-            $product->update([
-                'stock' => $product->stock - $orderItem->quantity
-            ]);
-        }
+                $cartItem = CartItem::where('id', $item->id)->first();
+                $cartItem->checkout = 1;
+                $cartItem->save();
+
+                $product = Product::where('id', $orderItem->product_id)->first();
+                $product->update([
+                    'stock' => $product->stock - $orderItem->quantity
+                ]);
+            }
+
+            if($order->status == 'Menunggu Konfirmasi') {
+                $adminUsers = User::where('user_level', 'Admin')->get();
+
+                foreach($adminUsers as $adminUser) {
+                    Notification::where('user_level', 'Admin')->create([
+                        'transaction_id' => $order->id,
+                        'transaction_number' => $order->transaction_number,
+                        'user_id' => $adminUser->id,
+                        'customer_name' => $order->user_name,
+                        'user_level' => $adminUser->user_level,
+                        'status' => $order->status,
+                        'is_read' => 0
+                    ]);
+                }
+            }
+        });
 
         return redirect()->route('menu')->with('success_message', 'berhasil melakukan pemesanan!');
     }

@@ -53,11 +53,17 @@
                                 <tr>
                                     <td>{{ $order->created_at }}</td>
                                     <td>{{ $order->user_name }}</td>
-                                    <td>{{ $order->status }}</td>
+                                    <td>                            
+                                        @if($order->status == 'Selesai Pengiriman' || $order->status == 'Pesanan Selesai' || $order->status == 'Pesanan Diterima') 
+                                            <span style="font-size: 20px" class="badge badge-success">{{ $order->status }}</span> 
+                                        @else
+                                            <span style="font-size: 20px" class="badge badge-warning">{{ $order->status }}</span> 
+                                        @endif
+                                    </td>
                                     <td>{{ number_format($order->total_price, 2) }}</td>
                                     <td style="white-space: nowrap;">
                                         <a class="btn btn-primary btn-sm" href="{{ route('admin.orders.show', [$order->id]) }}">
-                                            <i class="fas fa-folder"></i> Update Status
+                                            <i class="fas fa-eye"></i> View
                                         </a>
                                     </td>
                                 </tr>

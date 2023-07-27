@@ -279,11 +279,11 @@
                                     <textarea class="form-control" name="address" id="" cols="30" rows="10">{{ auth()->user()->address }}</textarea>
                                 </div>
                             </div>
-                        </div>
-                        <span id="card-header">Biaya Pegiriman :</span>
-                        <div class="row-1" style="height:100px">
-                            <div style="height:100px">
-                                <input type="number" class="form-control" name="delivery_fee">
+                            <span id="card-header">Biaya Pegiriman :</span>
+                            <div class="row-1" style="height:100px">
+                                <div style="height:100px">
+                                    <input type="number" class="form-control" name="delivery_fee">
+                                </div>
                             </div>
                         </div>
                         <button class="btn d-flex mx-auto"><b>Checkout</b></button>

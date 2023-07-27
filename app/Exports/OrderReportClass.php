@@ -58,7 +58,6 @@ class OrderReportClass implements FromArray
             'CUSTOMER',
             'ORDER METHOD',
             'DELIVERY ADDRESS',
-            'DELIVERY FEE',
             'PRODUCT NAME',
             'QUANTITY',
             'PRICE',
@@ -87,7 +86,6 @@ class OrderReportClass implements FromArray
                     $order->user_name,
                     $order->payment_method,
                     $order->delivery_address,
-                    $order->delivery_fee ?? 0,
                     $productName,
                     $orderItem->quantity,
                     'Rp. '.number_format($orderItem->price),
@@ -96,10 +94,27 @@ class OrderReportClass implements FromArray
             }
         }
 
+        if(!empty($order->delivery_fee) && $order->delivery_fee > 0) {
+            $grandTotal += $order->delivery_fee;
+        }
+
         $dataToReturn['content'] = $contents;
 
-        $footer = [
+        $footer_1 = [
             '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            'DELIVERY FEE'
+        ];
+
+        $footer_1[] = 'Rp. '.number_format($order->delivery_fee);
+        $dataToReturn['footer_1'] = $footer_1;
+
+        $footer_2 = [
             '',
             '',
             '',
@@ -110,8 +125,8 @@ class OrderReportClass implements FromArray
             'GRAND TOTAL'
         ];
 
-        $footer[] = 'Rp. '.number_format($grandTotal);
-        $dataToReturn['footer'] = $footer;
+        $footer_2[] = 'Rp. '.number_format($grandTotal);
+        $dataToReturn['footer_2'] = $footer_2;
         
         return $dataToReturn;
     }

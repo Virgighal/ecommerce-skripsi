@@ -49,6 +49,8 @@ Route::middleware('web-auth')->group(function() {
     Route::get('checkout', [CartController::class, 'checkout'])->name('checkout');
     Route::get('profile', [ProfileController::class, 'index'])->name('profile');
     Route::get('ratings/{rateableType}/{rateableId}', [RatingController::class, 'rating'])->name('ratings.index');
+    Route::get('profile/confirm-order/{id}', [ProfileController::class, 'confirmOrder'])->name('profile.confirm-order');
+    Route::post('profile/update-notification-status', [ProfileController::class, 'updateNotificationStatus']);
     Route::post('add-to-cart', [CartController::class, 'add'])->name('add-to-cart');
     Route::post('update-cart-item', [CartController::class, 'updateCartItem']);
     Route::post('deduct', [CartController::class, 'deduct'])->name('deduct');

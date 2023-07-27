@@ -36,7 +36,7 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            @if($order->status == 'Selesai Pengiriman' || $order->status == 'Pesanan Selesai') 
+                            @if($order->status == 'Selesai Pengiriman' || $order->status == 'Pesanan Selesai' || $order->status == 'Pesanan Diterima') 
                                 <span style="font-size: 20px" class="badge badge-success">{{ $order->status }}</span> 
                             @else
                                 <span style="font-size: 20px" class="badge badge-warning">{{ $order->status }}</span> 

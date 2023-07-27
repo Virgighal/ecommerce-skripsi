@@ -148,9 +148,13 @@
                     }
                 </style>
 
+                @php
+                    $totalNotifications = \App\Models\Notification::where('user_id', auth()->user()->id)
+                        ->where('is_read', 0)
+                        ->count()
+                @endphp
                 <div class="container d-flex justify-content-center mt-20">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-5">
-
                         <div class="tab-vertical">
                             <ul class="nav nav-tabs" id="myTab3" role="tablist">
                                 <li class="nav-item">
@@ -158,6 +162,14 @@
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" id="order-history-tab" data-toggle="tab" href="#order-history" role="tab" aria-controls="profile" aria-selected="false"><i class="fa fa-clock" style="color: black;padding-right:10px"></i> Order History</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="notification-tab" data-toggle="tab" href="#notification" role="tab" aria-controls="notification" aria-selected="false">
+                                        <i class="fa fa-bell" style="color: black;padding-right:10px"></i>Notification                         
+                                        @if ($totalNotifications > 0)
+                                            <span style="margin-left:20px;font-size: 15px" class="badge badge-danger">{{ $totalNotifications }}</span> 
+                                        @endif
+                                    </a>
                                 </li>
                                 <li class="nav-item">
                                     <form action="{{ route('logout') }}" method="POST" id='logoutForm'>
@@ -172,9 +184,26 @@
                                     </script>
                                     <a class="nav-link" style="background-color: #ff6c9b;color:white" href="#" role="tab" onclick='confirmLogout()'><i class="fa fa-power-off" style="color: black;padding-right:10px"></i> Log Out</a>
                                 </li>
+                                <li class="nav-item">
+                                    <a class="btn btn-primary" href="#" role="tab" onclick='refresh()'><i class="fa fa-refresh" style="color: black;padding-right:10px;height:100%"></i>Refresh Page</a>
+                                </li>
                             </ul>
                             <div class="tab-content" id="myTabContent3">
-                                <div class="tab-pane fade show active" id="my-profile" role="tabpanel" aria-labelledby="my-profile-tab">
+                                @php
+                                    $order_tab_active = '';
+                                    $profile_tab_active = '';
+                                    $notification_tab_active = '';
+                                    if(Session::has('active_page')) {
+                                        $active_page = Session::get('active_page');
+                                    }
+
+                                    if($active_page == 'order_history') {
+                                        $order_tab_active = 'show order history active';
+                                    } else {
+                                        $profile_tab_active = 'show profile active';
+                                    }
+                                @endphp
+                                <div class="tab-pane fade {{ $profile_tab_active }}" id="my-profile" role="tabpanel" aria-labelledby="my-profile-tab">
                                     <form action="{{ route('change-profile') }}" method="POST">
                                         @csrf
                                         <div class="mb-3">
@@ -192,7 +221,7 @@
                                         <button type="submit" class="btn btn-primary">Update</button>
                                     </form>
                                 </div>
-                                <div class="tab-pane fade" id="order-history" role="tabpanel" aria-labelledby="order-history-tab">
+                                <div class="tab-pane fade {{ $order_tab_active }}" id="order-history" role="tabpanel" aria-labelledby="order-history-tab">
                                     @foreach ($orders as $order)
                                         <div class="card mb-4">
                                             <div class="card-body">
@@ -203,7 +232,7 @@
                                                 Total Price: Rp. {{ number_format($order->total_price) }} <br>
                                                 Delivery Fee: Rp. {{ number_format($order->delivery_fee) }} <br>
                                                 Status: 
-                                                @if($order->status == 'Selesai Pengiriman' || $order->status == 'Pesanan Selesai') 
+                                                @if($order->status == 'Selesai Pengiriman' || $order->status == 'Pesanan Selesai' || $order->status == 'Pesanan Diterima') 
                                                     <span style="font-size: 20px" class="badge badge-success">{{ $order->status }}</span> 
                                                 @else
                                                     <span style="font-size: 20px" class="badge badge-warning">{{ $order->status }}</span> 
@@ -230,7 +259,7 @@
                                                                     <td>N/A</td>
                                                                 @endif
                                                                 <td style="white-space: nowrap;">
-                                                                    <div style="display: flex;gap:10px">
+                                                                    <div style="display: flex;gap:10px;flex-wrap:wrap">
                                                                         @if(!empty($product->product) && ($order->status == 'Selesai Pengiriman' || $order->status == 'Pesanan Selesai'))
                                                                             <a class="btn btn-primary btn-sm" href="{{ route('ratings.index', 
                                                                                 [
@@ -245,6 +274,14 @@
                                                                             ]) }}">
                                                                                 <i class="fa fa-comment" aria-hidden="true"></i> Beri Komentar
                                                                             </a>
+                                                                            @if ($order->status == 'Selesai Pengiriman')
+                                                                                <a class="btn btn-primary btn-sm" href="{{ route('profile.confirm-order', 
+                                                                                [
+                                                                                    $order->id,
+                                                                                ]) }}">
+                                                                                    <i class="fa fa-check" aria-hidden="true"></i> Konfirmasi Pesanan Diterima
+                                                                                </a>
+                                                                            @endif
                                                                         @endif
                                                                     </div>
                                                                 <td>
@@ -256,12 +293,41 @@
                                         </div>
                                     @endforeach
                                 </div>
+                                <div class="tab-pane fade {{ $notification_tab_active }}" id="notification" role="tabpanel" aria-labelledby="notification-tab">
+                                    @foreach ($notifications as $notification)
+                                        <div class="card mb-4"  onclick="openNotification()">
+                                            <div class="card-body">
+                                                @php
+                                                    $message = '';
+                                                    if($notification->status == 'Proses Pengiriman') {
+                                                        $message = 'Pesanan sedang dalam proses pengiriman!';
+                                                    } elseif($notification->status == 'Selesai Pengiriman') {
+                                                        $message = 'Pesanan telah sampai ke tujuan!';
+                                                    }
+                                                @endphp
+                                                <div style="display: flex;gap:40px;cursor: pointer;">
+                                                    <div>
+                                                        <div style="background-color:red;width:50px;border-radius:5px">
+                                                            <a style="height: 30px;margin-top:20px;margin-left:8px;color:white">
+                                                                <b>New</b>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <div style="width: 500px;line-height:1">
+                                                        <span style="font-size: 17px" class="badge badge-success">{{ $message }}</span> 
+                                                        <p><b>Order Number : #{{ $notification->transaction_number }}</b></p>
+                                                        <p><b>Customer Name : #{{ $notification->customer_name }}</b></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
                             </div>
                         </div>
 
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -272,5 +338,36 @@
     <script type="text/javascript">
         const element = document.getElementById("profile");
         element.scrollIntoView();
+
+        function openNotification() {
+            $('#order-history-tab').tab('show');
+            // Show the "order-history" tab content
+            $('#order-history').addClass('show active');
+            $('#notification').removeClass('show active');
+            
+            // Scroll to the "order-history" tab content if needed
+            $('html, body').animate({
+                scrollTop: $('#order-history').offset().top
+            }, 1000); // Adjust the duration (in milliseconds) as needed
+
+            $.ajax({
+                url: '/profile/update-notification-status',
+                method: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}', // Add CSRF token if needed
+                    user_id: {{ auth()->user()->id }},
+                },
+                success: function(response) {
+                    console.log('Notification status updated successfully.');
+                },
+                error: function(error) {
+                    console.error('Failed to update notification status.');
+                }
+            });
+        }
+
+        function refresh(){
+            window.location.reload();
+        }
     </script>
 @endsection

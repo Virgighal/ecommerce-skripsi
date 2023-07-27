@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\CommentsController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\MenuController;
+use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\OrderController;
@@ -38,6 +39,10 @@ Route::middleware('auth')->group(function() {
 
     Route::prefix('ratings')->name('ratings.')->group(function() {
         Route::get('/', [RatingsController::class, 'index'])->name('index');
+    });
+
+    Route::prefix('notifications')->name('notifications.')->group(function() {
+        Route::get('/', [NotificationController::class, 'index'])->name('index');
     });
 
     Route::prefix('report')->name('report.')->group(function() {

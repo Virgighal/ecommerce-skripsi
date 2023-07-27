@@ -7,10 +7,12 @@
     <div class="sidebar">
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel d-flex">
-            <div class="info">
-                <a href="{{ route('admin.home') }}" class="d-block pt-3 pb-3">
-                    <h5 style="margin-bottom: 0;">Admin</h5>
-                </a>
+            <div class="info" style="display: flex;justify-content:space-around">
+                <div>
+                    <a href="{{ route('admin.home') }}" class="d-block pt-3 pb-3">
+                        <h5 style="margin-bottom: 0;">Admin</h5>
+                    </a>
+                </div>
             </div>
         </div>
 
@@ -28,25 +30,55 @@
                     </a>
                 </li>
 
+                @php
+                    $totalNotifications = \App\Models\Notification::where('user_id', auth()->user()->id)
+                        ->where('is_read', 0)
+                        ->count()
+                @endphp
                 <li class="nav-item">
-                    <a href="{{ route('admin.users.index') }}" class="nav-link 
-                        @if(strpos(\URL::current(), "user_management") !== false)
+                    <a href="{{ route('admin.notifications.index') }}" class="nav-link 
+                        @if(strpos(\URL::current(), "notifications") !== false)
+                            active
+                        @endif
+                    ">
+                        <i class="nav-icon fas fa-bell"></i>
+                        <p>Notifications</p>
+                        @if ($totalNotifications > 0)
+                            <span style="float: right;font-size: 15px" class="badge badge-danger">{{ $totalNotifications }}</span> 
+                        @endif
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{{ route('admin.orders.index') }}" class="nav-link 
+                        @if(strpos(\URL::current(), "orders") !== false)
                         active
                         @endif
                     ">
-                        <i class="nav-icon fas fa-user"></i>
-                        <p>User Management</p>
+                        <i class="nav-icon fas fa-shopping-bag"></i>
+                        <p>Orders Management</p>
                     </a>
                 </li>
 
                 <li class="nav-item">
                     <a href="{{ route('admin.products.index') }}" class="nav-link 
-                        @if(strpos(\URL::current(), "stock_management") !== false)
+                        @if(strpos(\URL::current(), "products") !== false)
                         active
                         @endif
                     ">
                         <i class="nav-icon fas fa-box"></i>
-                        <p>Stok Management</p>
+                        <p>Stock Management</p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{{ route('admin.report.index') }}" class="nav-link 
+                        @if(strpos(\URL::current(), "report") !== false)
+                        active
+                        @endif
+                    ">
+                        <i class="nav-icon fas fa-file"></i>
+                        <p>Reports</p>
                     </a>
                 </li>
 
@@ -56,7 +88,7 @@
                         active
                         @endif
                     ">
-                        <i class="nav-icon fas fa-box"></i>
+                        <i class="nav-icon fas fa-tags"></i>
                         <p>Menu</p>
                     </a>
                 </li>
@@ -73,24 +105,13 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="{{ route('admin.report.index') }}" class="nav-link 
-                        @if(strpos(\URL::current(), "reports") !== false)
+                    <a href="{{ route('admin.users.index') }}" class="nav-link 
+                        @if(strpos(\URL::current(), "users") !== false)
                         active
                         @endif
                     ">
-                        <i class="nav-icon fas fa-file"></i>
-                        <p>Reports</p>
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a href="{{ route('admin.orders.index') }}" class="nav-link 
-                        @if(strpos(\URL::current(), "transaction_management") !== false)
-                        active
-                        @endif
-                    ">
-                        <i class="nav-icon fas fa-shopping-bag"></i>
-                        <p>Orders</p>
+                        <i class="nav-icon fas fa-user"></i>
+                        <p>User Management</p>
                     </a>
                 </li>
                 

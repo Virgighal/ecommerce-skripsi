@@ -7,10 +7,12 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Cart;
 use App\Models\CartItem;
+use App\Models\Notification;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Rating;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class ProfileController extends Controller
 {
@@ -51,10 +53,17 @@ class ProfileController extends Controller
             $order->products = $orderItems;
         }
 
+        $notifications = Notification::where('user_level', 'User')
+            ->where('user_id', $user->id)
+            ->where('is_read', 0)
+            ->get();
+
         return view('web.profile', [
             'active_menu' => 'profile',
+            'active_page' => 'profile',
             'user' => $user,
-            'orders' => $orders
+            'orders' => $orders,
+            'notifications' => $notifications
         ]);
     }
 
@@ -71,6 +80,50 @@ class ProfileController extends Controller
         $user->address = $request->address;
         $user->save();
 
-        return redirect()->route('profile');
+        return redirect()->route('profile')->with('success_message', 'Berhasil mengubah profile')
+            ->with('active_page', 'profile');
+    }
+
+    public function confirmOrder(Request $request, $id)
+    {
+        if(auth()->user()->user_level != 'User') {
+            return redirect()->route('admin.home');
+        }
+
+        $order = Order::where('id', $id)->first();
+        
+        if(empty($order)) {
+            return redirect()->back()->with('error_message', 'Order is no longer exists!');
+        }
+
+        DB::transaction(function() use($order) {
+            $order->status = "Pesanan Diterima";
+            $order->save();
+
+            $adminUsers = User::where('user_level', 'Admin')->get();
+
+            foreach($adminUsers as $adminUser) {
+                Notification::where('user_level', 'Admin')->create([
+                    'transaction_id' => $order->id,
+                    'transaction_number' => $order->transaction_number,
+                    'user_id' => $adminUser->id,
+                    'customer_name' => $order->user_name,
+                    'user_level' => $adminUser->user_level,
+                    'status' => $order->status,
+                    'is_read' => 0
+                ]);
+            }
+        }, 5);
+
+        return redirect()->route('profile')->with('success_message', 'Berhasil konfirmasi penerimaan pesanan')
+            ->with('active_page', 'order_history');
+    }
+
+    public function updateNotificationStatus(Request $request)
+    {
+        $user_id = $request->user_id;
+        Notification::where('user_id', $user_id)->update(['is_read' => 1]);
+
+        return response()->json(['message' => 'Notification status updated successfully']);
     }
 }

@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Notification;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Rating;
+use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
@@ -59,6 +61,12 @@ class OrderController extends Controller
         
         $order->items = $orderItems;
 
+        Notification::where('transaction_id', $order->id)
+            ->where('user_id', auth()->user()->id)
+            ->update([
+                'is_read' => 1
+            ]);
+
         return view('admin.orders.show', [
             'order' => $order
         ]);
@@ -85,6 +93,7 @@ class OrderController extends Controller
             ]);
         }
 
+        $imageFilePath = NULL;
         if($request->hasFile('image')) {
             $oldImageFilePath = public_path($order->image_file_path);
             unlink($oldImageFilePath);
@@ -97,11 +106,23 @@ class OrderController extends Controller
             $imageFilePath = 'order-image/'.$fileName;
         }
 
-        $order->status = $request->status;
-        if(!empty($imageFilePath)) {
-            $order->image_file_path = $imageFilePath;
-        }
-        $order->save();
+        DB::transaction(function() use($request, $imageFilePath, $order) {
+            $order->status = $request->status;
+            if(!empty($imageFilePath)) {
+                $order->image_file_path = $imageFilePath;
+            }
+            $order->save();
+    
+            Notification::where('user_id', $order->user_id)->create([
+                'transaction_id' => $order->id,
+                'transaction_number' => $order->transaction_number,
+                'user_id' => $order->user_id,
+                'customer_name' => $order->user_name,
+                'user_level' => 'User',
+                'status' => $order->status,
+                'is_read' => 0
+            ]);
+        }, 5);
 
         return redirect()->route('admin.orders.show', [
             'id' => $order->id
