@@ -253,6 +253,7 @@
         }
 
         $(document).ready(function() {
+            const debouncedUpdateCartItem = _.debounce(updateCartItem, 500);
             // Event delegation to handle quantity changes for all items
             $(document).on('input', '.quantity', function() {
                 let quantity = $(this).val();
@@ -277,7 +278,7 @@
 
                 // Make AJAX call to update cart on the server-side
                 const cartItemId = $cartItem.find('.cartItemId').val();
-                updateCartItem(cartItemId, quantity, price, total);
+                debouncedUpdateCartItem(cartItemId, quantity, price, total);
             });
 
             // Function to update cart item on the server-side using AJAX
