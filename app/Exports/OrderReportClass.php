@@ -40,7 +40,7 @@ class OrderReportClass implements FromArray
         $dataToReturn[] = ["WARUNG Mbo'e"];
         if(!empty($this->startDate) && !empty($this->endDate)) {
             $dataToReturn[] = [
-                Carbon::createFromFormat('Y-m-d H:i:s', $this->startDate)->format('d F Y').' s/d '. Carbon::createFromFormat('Y-m-d H:i:s', $this->endDate)->format('d F Y')
+                Carbon::createFromFormat('Y-m-d H:i:s', $this->startDate)->translatedFormat('d F Y').' s/d '. Carbon::createFromFormat('Y-m-d H:i:s', $this->endDate)->translatedFormat('d F Y')
             ];
         }
         $dataToReturn[] = [""];

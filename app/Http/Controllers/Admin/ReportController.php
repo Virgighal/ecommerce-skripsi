@@ -94,7 +94,7 @@ class ReportController extends Controller
 
         if(!empty($startDate) && !empty($endDate)) {
             $dataToReturn["date"] = [
-                'Tanggal '. Carbon::createFromFormat('Y-m-d', $startDate)->format('d F Y').' s/d '. Carbon::createFromFormat('Y-m-d', $endDate)->format('d F Y')
+                'Tanggal '. Carbon::createFromFormat('Y-m-d', $startDate)->translatedFormat('d F Y').' s/d '. Carbon::createFromFormat('Y-m-d', $endDate)->translatedFormat('d F Y')
             ];
         }
 
