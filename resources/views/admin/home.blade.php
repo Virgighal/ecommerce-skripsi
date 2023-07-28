@@ -29,7 +29,7 @@
                     <div class="small-box bg-success">
                         <div class="inner">
                             <h3>
-                                {{ \App\Models\Order::whereIn('status', ['Selesai Pengiriman', 'Pesanan Selesai'])->count() }}
+                                {{ \App\Models\Order::whereIn('status', ['Selesai Pengiriman', 'Pesanan Selesai', 'Pesanan Diterima'])->count() }}
                             </h3>
                             <p>Total Transaksi</p>
                         </div>
@@ -43,7 +43,7 @@
                     <div class="small-box bg-warning">
                         <div class="inner">
                             <h3>
-                                Rp. {{ number_format(\App\Models\Order::whereIn('status', ['Selesai Pengiriman', 'Pesanan Selesai'])->sum('total_price')) }}
+                                Rp. {{ number_format(\App\Models\Order::whereIn('status', ['Selesai Pengiriman', 'Pesanan Selesai', 'Pesanan Diterima'])->sum('total_price')) }}
                             </h3>
                             <p>Total Penjualan</p>
                         </div>
