@@ -253,7 +253,7 @@
         }
 
         $(document).ready(function() {
-            const debouncedUpdateCartItem = _.debounce(updateCartItem, 500);
+            const debouncedUpdateCartItem = _.debounce(updateCartItem, 700);
             // Event delegation to handle quantity changes for all items
             $(document).on('input', '.quantity', function() {
                 let quantity = $(this).val();
