@@ -28,74 +28,51 @@ class OrderReportClass implements FromArray
     */
     public function array(): array
     {
-        $orders = new Order;
-
-        if(!empty($this->startDate) && !empty($this->endDate)) {
-            $orders = $orders->whereBetween('created_at', [
-                $this->startDate, $this->endDate
-            ]);
+        $products = Product::orderBy('name', 'ASC');
+        if(!empty($productName)) {
+            $products = $products->where('name', 'LIKE', '%'.$productName.'%');
         }
-
-        if(!empty($this->transactionNumber)) {
-            $orders = $orders->where('transaction_number', $this->transactionNumber);
-        }
-
-        if(!empty($this->productName)) {
-            $product = Product::where('name', $this->productName)->first();
-            if(!empty($product)) {
-                $orderIds = OrderItem::where('product_id', $product->id)->pluck('order_id')->toArray();
-                $orders = $orders->whereIn('id', $orderIds);
-            }
-        }
-
-        $orders = $orders->get();
+        $products = $products->get();
 
         $dataToReturn = [];
 
+        $dataToReturn[] = ["LAPORAN PENJUALAN"];
+        $dataToReturn[] = ["WARUNG Mbo'e"];
+        if(!empty($this->startDate) && !empty($this->endDate)) {
+            $dataToReturn[] = [
+                Carbon::createFromFormat('Y-m-d H:i:s', $this->startDate)->format('d F Y').' s/d '. Carbon::createFromFormat('Y-m-d H:i:s', $this->endDate)->format('d F Y')
+            ];
+        }
+        $dataToReturn[] = [""];
+
         $header = [
-            'TRANSACTION NUMBER',
-            'ORDER DATE',
-            'CUSTOMER',
-            'ORDER METHOD',
-            'DELIVERY ADDRESS',
-            'PRODUCT NAME',
-            'QUANTITY',
-            'PRICE',
-            'AMOUNT'
+            'NO',
+            'PRODUK',
+            'JUMLAH STOK TERSEDIA',
+            'JUMLAH STOK TERJUAL',
+            'HARGA PRODUK',
+            'TOTAL PENJUALAN'
         ];
 
         $dataToReturn['header'] = $header;
         
         $contents = [];
         $grandTotal = 0;
-        foreach($orders as $order) {
-            $orderItems = OrderItem::where('order_id', $order->id)->get();
-            foreach($orderItems as $orderItem) {
-                $product = Product::where('id', $orderItem->product_id)->first();
-                $productName = 'N/A';
-                if(!empty($product)) {
-                    $productName = $product->name;
-                }
+        $no = 1;
+        foreach($products as $product) {
+            $totalSelledStock = OrderItem::where('product_id', $product->id)->get()->sum('quantity');
+            $totalSalesPerProduct = $totalSelledStock * $product->price;
 
-                $amount = $orderItem->quantity * $orderItem->price;
-                $grandTotal += $amount;
+            $grandTotal += $totalSalesPerProduct;
 
-                $contents[] = [
-                    (string) $order->transaction_number,
-                    Carbon::createFromFormat('Y-m-d H:i:s', $order->created_at)->format('d/m/Y H:i:s'),
-                    $order->user_name,
-                    $order->payment_method,
-                    $order->delivery_address,
-                    $productName,
-                    $orderItem->quantity,
-                    'Rp. '.number_format($orderItem->price),
-                    'Rp. '.number_format($amount)
-                ];
-            }
-        }
-
-        if(!empty($order->delivery_fee) && $order->delivery_fee > 0) {
-            $grandTotal += $order->delivery_fee;
+            $contents[] = [
+                $no++,
+                $product->name,
+                $product->stock,
+                $totalSelledStock ?? '0',
+                'Rp. '.number_format($product->price),
+                'Rp. '.number_format($totalSalesPerProduct),
+            ];
         }
 
         $dataToReturn['content'] = $contents;
@@ -105,28 +82,11 @@ class OrderReportClass implements FromArray
             '',
             '',
             '',
-            '',
-            '',
-            '',
-            'DELIVERY FEE'
+            'GRAND TOTAL',
         ];
 
-        $footer_1[] = 'Rp. '.number_format($order->delivery_fee);
+        $footer_1[] = 'Rp. '.number_format($grandTotal);
         $dataToReturn['footer_1'] = $footer_1;
-
-        $footer_2 = [
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            'GRAND TOTAL'
-        ];
-
-        $footer_2[] = 'Rp. '.number_format($grandTotal);
-        $dataToReturn['footer_2'] = $footer_2;
         
         return $dataToReturn;
     }
