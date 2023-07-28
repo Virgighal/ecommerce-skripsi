@@ -47,6 +47,7 @@ Route::middleware('auth')->group(function() {
 
     Route::prefix('report')->name('report.')->group(function() {
         Route::get('/', [ReportController::class, 'index'])->name('index');
+        Route::get('/print-pdf', [ReportController::class, 'printPdf'])->name('print-pdf');
         Route::get('/report', [ReportController::class, 'report'])->name('report');
     });
 

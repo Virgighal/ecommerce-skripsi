@@ -42,7 +42,7 @@
                     <p>
                         Search
                     </p>
-                    <form action="{{ route('admin.report.report') }}" method="GET">
+                    <form action="{{ route('admin.report.report') }}" method="GET"  id="reportForm">
                         <div style="display: flex;gap:20px">
                             <div style="width: 30%">
                                 <label for="transaction_number">Transaction Number</label>
@@ -62,7 +62,8 @@
                             </div>
                         </div>
                         <div style="width: 20%">
-                            <button type="submit" class="btn btn-primary" style="margin-top:30px">Export</button>
+                            <button type="submit" class="btn btn-primary" style="margin-top:30px">Download Excel</button>
+                            <button type="submit" class="btn btn-primary" style="margin-top:30px" id="printPdfBtn">Print PDF</button>
                         </div>
                     </form>
                 </div>
@@ -81,6 +82,13 @@
             $('.datepicker').datepicker({
                 format: 'yyyy-mm-dd',
             });
+
+            $("#printPdfBtn").click(function() {
+            $("#reportForm").attr('action', '{{ route("admin.report.print-pdf") }}').attr('target', '_blank').submit();
+            setTimeout(() => {
+                $("#reportForm").attr('action', '{{ route("admin.report.report") }}').attr('target', '');
+            }, 100);
+        });
         });
     </script>
 @endsection

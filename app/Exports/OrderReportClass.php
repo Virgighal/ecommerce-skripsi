@@ -60,7 +60,22 @@ class OrderReportClass implements FromArray
         $grandTotal = 0;
         $no = 1;
         foreach($products as $product) {
-            $totalSelledStock = OrderItem::where('product_id', $product->id)->get()->sum('quantity');
+            $totalSelledStock = OrderItem::where('product_id', $product->id);
+            if(!empty($this->transactionNumber)) {
+                $order = Order::where('transaction_number', $this->transactionNumber)->first();
+                if(!empty($order)) {
+                    $totalSelledStock = $totalSelledStock->where('order_id', $order->id);
+                }
+            }
+
+            if(!empty($this->startDate) && !empty($this->endDate)) {
+                $totalSelledStock = $totalSelledStock->whereBetween('created_at', [
+                    $this->startDate, $this->endDate
+                ]);
+            }
+
+            $totalSelledStock = $totalSelledStock->sum('quantity');
+
             $totalSalesPerProduct = $totalSelledStock * $product->price;
 
             $grandTotal += $totalSalesPerProduct;
