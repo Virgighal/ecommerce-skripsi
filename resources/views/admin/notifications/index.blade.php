@@ -102,6 +102,8 @@
                                                 $message = 'Pesanan menunggu untuk dikonfimasi!';
                                             } elseif($notification->status == 'Pesanan Diterima') {
                                                 $message = 'Pesanan telah diterima oleh user!';
+                                            } elseif($notification->status == 'Pesanan Belum Diterima') {
+                                                $message = 'Pesanan telah belum diterima oleh user!';
                                             }
                                         @endphp
                                         <div style="display: flex;gap:40px">
@@ -113,7 +115,7 @@
                                                 </div>
                                             </div>
                                             <div style="width: 500px;line-height:1">
-                                                <span style="font-size: 17px" class="badge badge-success">{{ $message }}</span> 
+                                                <span style="font-size: 17px" class="badge badge-{{ ($notification->status == 'Pesanan Belum Diterima') ? 'danger' : 'success' }}">{{ $message }}</span> 
                                                 <p><b>Order Number : #{{ $notification->transaction_number }}</b></p>
                                                 <p><b>Customer Name : #{{ $notification->customer_name }}</b></p>
                                             </div>

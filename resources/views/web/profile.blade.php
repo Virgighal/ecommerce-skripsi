@@ -281,6 +281,12 @@
                                                                                 ]) }}">
                                                                                     <i class="fa fa-check" aria-hidden="true"></i> Konfirmasi Pesanan Diterima
                                                                                 </a>
+                                                                                <a class="btn btn-primary btn-sm" href="{{ route('profile.reject-order', 
+                                                                                [
+                                                                                    $order->id,
+                                                                                ]) }}">
+                                                                                    <i class="fa fa-times" aria-hidden="true"></i> Konfirmasi Pesanan Belum Diterima
+                                                                                </a>
                                                                             @endif
                                                                         @endif
                                                                     </div>

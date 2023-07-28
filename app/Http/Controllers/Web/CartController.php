@@ -252,7 +252,7 @@ class CartController extends Controller
             }
 
             if($item->quantity > $product->stock) {
-                return redirect()->back()->with('error_message', 'Jumlah yang di order melebihi total stock yang tersedia!');
+                return redirect()->back()->with('error_message', 'Jumlah yang di order melebihi total stock yang tersedia! Stock Tersedia : '.$product->stock);
             }
         }
 

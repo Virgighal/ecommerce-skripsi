@@ -119,6 +119,41 @@ class ProfileController extends Controller
             ->with('active_page', 'order_history');
     }
 
+    public function rejectOrder(Request $request, $id)
+    {
+        if(auth()->user()->user_level != 'User') {
+            return redirect()->route('admin.home');
+        }
+
+        $order = Order::where('id', $id)->first();
+        
+        if(empty($order)) {
+            return redirect()->back()->with('error_message', 'Order is no longer exists!');
+        }
+
+        DB::transaction(function() use($order) {
+            $order->status = 'Proses Pengiriman';
+            $order->save();
+
+            $adminUsers = User::where('user_level', 'Admin')->get();
+
+            foreach($adminUsers as $adminUser) {
+                Notification::where('user_level', 'Admin')->create([
+                    'transaction_id' => $order->id,
+                    'transaction_number' => $order->transaction_number,
+                    'user_id' => $adminUser->id,
+                    'customer_name' => $order->user_name,
+                    'user_level' => $adminUser->user_level,
+                    'status' => 'Pesanan Belum Diterima',
+                    'is_read' => 0
+                ]);
+            }
+        }, 5);
+
+        return redirect()->route('profile')->with('success_message', 'Berhasil konfirmasi penerimaan pesanan')
+            ->with('active_page', 'order_history');
+    }
+
     public function updateNotificationStatus(Request $request)
     {
         $user_id = $request->user_id;
