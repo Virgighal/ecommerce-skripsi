@@ -54,11 +54,11 @@
                             </div>
                             <div style="width: 30%">
                                 <label for="end_date">End Date</label>
-                                <input type="text" class="form-control datepicker" autocomplete="off" name="end_date" placeholder="Enter Start Date">
+                                <input type="text" class="form-control datepicker" autocomplete="off" name="end_date" placeholder="Enter End Date">
                             </div>
                             <div style="width: 30%">
                                 <label for="product_name">Product Name</label>
-                                <input type="text" class="form-control" autocomplete="off" name="product_name" placeholder="Enter Start Date">
+                                <input type="text" class="form-control" autocomplete="off" name="product_name" placeholder="Enter Product Name">
                             </div>
                         </div>
                         <div style="width: 20%">
